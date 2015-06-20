@@ -1,24 +1,20 @@
-var buzzbands = angular.module('ideaBin',
+var buzzbands = angular.module('buzzbands',
 	[ 'ngRoute',
-		'templates',
-		'ngStorage',
-		'ipCookie',
-		'ng-token-auth',
-		'wu.masonry',
-		'ngMessages'])
+		'buzzbands.promoControllers',
+		'buzzbands.promoterControllers'])
 
-ideaBin.config(function ($routeProvider, $locationProvider) {
+buzzbands.config(function ($routeProvider, $locationProvider) {
 
-        $routeProvider.when('/', {
-					templateUrl: 'idea/index.html',
-				.otherwise({redirectTo : '/'});
+      $routeProvider.when('/home', {
+				templateUrl: 'promoter/index.html',
+			});
 
-        $locationProvider.html5Mode({
-					enabled: true,
-					requireBase: false
-				});
-    });
+      $locationProvider.html5Mode({
+				enabled: true,
+				requireBase: false
+			});
+  });
 
-ideaBin.run(['$rootScope', '$injector', function($rootScope,$injector) {
+buzzbands.run(['$rootScope', '$injector', function($rootScope,$injector) {
 
  }]);
