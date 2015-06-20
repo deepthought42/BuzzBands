@@ -1,0 +1,21 @@
+<%= form_for(@promoter) do |f| %>
+  <% if @promoter.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@promoter.errors.count, "error") %> prohibited this promoter from being saved:</h2>
+
+      <ul>
+      <% @promoter.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

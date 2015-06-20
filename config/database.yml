@@ -1,0 +1,18 @@
+development:
+  adapter: postgresql
+  database: buzzbands_development
+  username: postgres
+  password: password
+  host: localhost
+test:
+  adapter: postgresql
+  database: buzzbands_test
+  username: postgres
+  password: password
+  host: localhost
+production:
+  adapter: postgresql
+  database: buzzbands_production
+  username: postgres
+  password: password
+  host: localhost
