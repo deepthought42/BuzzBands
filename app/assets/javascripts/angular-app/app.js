@@ -1,20 +1,23 @@
 var buzzbands = angular.module('buzzbands',
 	[ 'ngRoute',
-		'buzzbands.promoControllers',
-		'buzzbands.promoterControllers'])
+		'ngResource',
+		'templates',
+		'ui.bootstrap',
+		'buzzbands.promoterControllers',
+		'buzzbands.promoterServices'
+		]);
 
 buzzbands.config(function ($routeProvider, $locationProvider) {
 
-      $routeProvider.when('/home', {
-				templateUrl: 'promoter/index.html',
+      $routeProvider.when("/", {
+				templateUrl: "user/signup.html"
+			})
+			.when("/promoterIdx", {
+				templateUrl: "promoter/index.html"
 			});
-
-      $locationProvider.html5Mode({
-				enabled: true,
-				requireBase: false
-			});
+      $locationProvider.html5Mode(true);
   });
 
 buzzbands.run(['$rootScope', '$injector', function($rootScope,$injector) {
-
+	console.log("BUZZ BANDS STARTED!");
  }]);

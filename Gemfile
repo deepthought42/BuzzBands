@@ -43,6 +43,5 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 #end
 
 gem 'bower-rails'
-gem 'angularjs-rails'
-gem 'angular-rails-templates', '~>0.1.3'
+gem 'angular-rails-templates'
 gem 'angular_rails_csrf'

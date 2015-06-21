@@ -2,13 +2,13 @@
 <html>
 <head>
   <title>Buzzbands</title>
+  <base href="/">
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag 'application', controller_name%>
-  <%= csrf_meta_tags %>
 </head>
 <body ng-app="buzzbands">
+  Hello World Now
 
-  <div class="container" id="mainPanel" ng-view=""></div>
-
+  <div ng-view="promoter/index.html"></div>
 </body>
 </html>
