@@ -45,3 +45,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bower-rails'
 gem 'angular-rails-templates'
 gem 'angular_rails_csrf'
+gem 'devise_token_auth'
+gem 'devise'
+gem 'omniauth'

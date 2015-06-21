@@ -16,7 +16,7 @@
 //= require ./components/angular-route/angular-route.min
 //= require ./components/angular-resource/angular-resource.min
 // require ./components/ngstorage/ngStorage.min
-// require ./components/angular-cookie/angular-cookie.min
+//= require ./components/angular-cookie/angular-cookie.min
 //= require ./components/angular-bootstrap/ui-bootstrap.min
 
 //= require angular-rails-templates
