@@ -1,11 +1,10 @@
 Rails.application.routes.draw do
-  mount_devise_token_auth_for 'User', at: 'auth'
+  mount_devise_token_auth_for 'User', at: 'api/auth'
   resources :application
   root 'application#index'
 
   resources :promos
   resources :promoters
-
 
   #get '*path' => redirect('/')
   # The priority is based upon order of creation: first created -> highest priority.

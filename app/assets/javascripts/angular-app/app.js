@@ -3,6 +3,11 @@ var buzzbands = angular.module('buzzbands',
 		'ngResource',
 		'templates',
 		'ui.bootstrap',
+		'ipCookie',
+		'ng-token-auth',
+		'ngStorage',
+		'ngMessages',
+		'buzzbands.UserControllers',
 		'buzzbands.promoterControllers',
 		'buzzbands.promoterServices'
 		]);

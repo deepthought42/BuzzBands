@@ -18,6 +18,9 @@
 // require ./components/ngstorage/ngStorage.min
 //= require ./components/angular-cookie/angular-cookie.min
 //= require ./components/angular-bootstrap/ui-bootstrap.min
+//= require ./components/ng-token-auth/dist/ng-token-auth.min
+//= require ./components/ngstorage/ngStorage.min
+//= require ./components/angular-messages/angular-messages.min
 
 //= require angular-rails-templates
 //= require_tree ../templates
