@@ -1,18 +1,18 @@
 development:
   adapter: postgresql
   database: buzzbands_development
-  username: evan
+  username: postgres
   password: password
   host: localhost
 test:
   adapter: postgresql
   database: buzzbands_test
-  username: evan1
+  username: postgres
   password: password
   host: localhost
 production:
   adapter: postgresql
   database: buzzbands_production
-  username: evan2
+  username: postgres
   password: password
   host: localhost
