@@ -13,6 +13,6 @@ test:
 production:
   adapter: postgresql
   database: buzzbands_production
-  username: evan
+  username: evan2
   password: password
   host: localhost
