@@ -7,7 +7,7 @@ development:
 test:
   adapter: postgresql
   database: buzzbands_test
-  username: evan
+  username: evan1
   password: password
   host: localhost
 production:
