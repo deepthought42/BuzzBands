@@ -1,16 +1,10 @@
-<div class="container" ng-controller="IdeaCreationCtrl">
+<div class="container" ng-controller="PromotionCreationCtrl">
 	<div class="row" >
-		<div id="ideaCreatePanel" class="col-md-10">
-			<div class="row text-center">
-              <div class="col-md-12">
-                <h2>
-					Create an idea.<br/>Share it with the world.
-				</h2>
-              </div>
+		<div id="promotionCreatePanel" class="col-md-10">
 			</div>
-				<form name="ideaForm"
+				<form name="promotionForm"
 							enctype="multipart/form-data"
-							ng-submit="createNewIdea(ideaForm.$valid)"
+							ng-submit="createNewPromotion(promotionForm.$valid)"
 							novalidate>
 					<div class="col-md-12">
 						<div class="col-md-5">
@@ -18,43 +12,29 @@
 										name="cover_image"
 										ng-file-drop
 										ng-file-change="previewImage($files)"
-										ng-model="cover_img"
+										ng-model="promotion.cover_img"
 										drop-available="dropSupported"
 										ng-file-select
 										accept="image/*">
-											<img id="ideaCreationImage"
+											<img id="promotionCreationImage"
 														class="cover_img"
 														ng-src="{{logo_url}}"/>
-
 							</div>
 							<div class="field">
 								<input  class="form-control"
 												type="text"
 												name="name"
-												ng-model="idea.name"
-												id="newIdeaName"
+												ng-model="promotion.name"
+												id="newPromotionName"
 												placeholder="Name"
 												required
 												minlength="3"
 												maxlength="250"
-												idea-name-availability-validator="/ideas.json"/>
-								<div ng-messages="ideaForm.name.$error" ng-if="ideaForm.$submitted" class="error">
-									<p ng-message="required">Idea name is required.</p>
-									<p ng-message="minlength">Your idea name must be at least 3 characters</p>
+												promotion-name-availability-validator="/promotions.json"/>
+								<div ng-messages="promotionForm.name.$error" ng-if="promotionForm.$submitted" class="error">
+									<p ng-message="required">Name is required.</p>
+									<p ng-message="minlength">Name must be at least 3 characters</p>
 									<p ng-repeat="validation in serverValidations['errors']">{{validation[0]}}</p>								</div>
-							</div>
-						</div>
-						<div class="field col-md-7 fullHeight">
-							<textarea
-										  class="form-control"
-											name="description"
-											ng-model="idea.description"
-											id="newIdeaDescription"
-											placeholder="Description"
-											required >
-							</textarea>
-							<div ng-messages="ideaForm.description.$error" ng-if="ideaForm.$submitted">
-								<p ng-message="required">A description is required.</p>
 							</div>
 						</div>
 					</div>
@@ -62,7 +42,7 @@
 					<div class="actions col-md-12">
 						<button type="submit" class="btn btn-primary pull-right" >
 							<i class="fa fa-save"></i>
-							Save Idea
+							Save
 						</button>
 					</div>
 				</form>

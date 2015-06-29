@@ -9,7 +9,8 @@ var buzzbands = angular.module('buzzbands',
 		'ngMessages',
 		'buzzbands.UserControllers',
 		'buzzbands.promoterControllers',
-		'buzzbands.promoterServices'
+		'buzzbands.promoterServices',
+		'buzzbands.promotionServices'
 		]);
 
 buzzbands.config(function ($routeProvider, $locationProvider) {
