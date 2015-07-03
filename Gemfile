@@ -42,9 +42,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
   #gem 'spring'
 #end
 
-gem 'bower-rails'
-gem 'angular-rails-templates'
-gem 'angular_rails_csrf'
 gem 'devise_token_auth'
+gem 'rack-cors', :require => 'rack/cors'
 gem 'devise'
 gem 'omniauth'
