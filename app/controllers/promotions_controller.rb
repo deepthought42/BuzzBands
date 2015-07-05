@@ -27,38 +27,30 @@ class PromotionsController < ApplicationController
   def create
     @promotion = Promotion.new(promotion_params)
 
-    respond_to do |format|
-      if @promotion.save
-        format.html { redirect_to @promotion, notice: 'Promotion was successfully created.' }
-        format.json { render :show, status: :created, location: @promotion }
-      else
-        format.html { render :new }
-        format.json { render json: @promotion.errors, status: :unprocessable_entity }
-      end
+    if @promotion.save
+      render json: { status: :created, @promotion }
+    else
+      render json: { @promotion.errors, status: :unprocessable_entity }
     end
   end
 
   # PATCH/PUT /promotions/1
   # PATCH/PUT /promotions/1.json
   def update
-    respond_to do |format|
-      if @promotion.update(promotion_params)
-        format.html { redirect_to @promotion, notice: 'Promotion was successfully updated.' }
-        format.json { render :show, status: :ok, location: @promotion }
-      else
-        format.html { render :edit }
-        format.json { render json: @promotion.errors, status: :unprocessable_entity }
-      end
+    if @promotion.update(promotion_params)
+      render json: { status: :ok, @promotion }
+    else
+      render json: { @promotion.errors, status: :unprocessable_entity }
     end
   end
 
   # DELETE /promotions/1
   # DELETE /promotions/1.json
   def destroy
-    @promotion.destroy
-    respond_to do |format|
-      format.html { redirect_to promotions_url, notice: 'Promotion was successfully destroyed.' }
-      format.json { head :no_content }
+    if @promotion.destroy
+      render json: { status: :ok }
+    else
+      render json: { status: :unprocessable_entity}
     end
   end
 
