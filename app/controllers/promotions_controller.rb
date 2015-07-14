@@ -37,6 +37,8 @@ class PromotionsController < ApplicationController
   # PATCH/PUT /promotions/1
   # PATCH/PUT /promotions/1.json
   def update
+    @promotion = Promotion.find(promotion_params[:id])
+    authorize @promotion
     if @promotion.update(promotion_params)
       render json: { status: :ok, promotion: @promotion }
     else

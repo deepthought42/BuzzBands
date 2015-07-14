@@ -1,4 +1,4 @@
-class PromotionPolicy
+class PromotionPolicy < ApplicationPolicy
   attr_reader :user, :promotion
 
   def initialize(user, promotion)
