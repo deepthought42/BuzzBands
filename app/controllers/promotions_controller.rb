@@ -28,9 +28,9 @@ class PromotionsController < ApplicationController
     @promotion = Promotion.new(promotion_params)
 
     if @promotion.save
-      render json: { status: :created, @promotion }
+      render json: {promotion: @promotion, status: :created }
     else
-      render json: { @promotion.errors, status: :unprocessable_entity }
+      render json: {errors: @promotion.errors, status: :unprocessable_entity }
     end
   end
 
@@ -38,9 +38,9 @@ class PromotionsController < ApplicationController
   # PATCH/PUT /promotions/1.json
   def update
     if @promotion.update(promotion_params)
-      render json: { status: :ok, @promotion }
+      render json: { status: :ok, promotion: @promotion }
     else
-      render json: { @promotion.errors, status: :unprocessable_entity }
+      render json: { errors: @promotion.errors, status: :unprocessable_entity }
     end
   end
 
