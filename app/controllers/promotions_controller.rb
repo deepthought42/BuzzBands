@@ -11,6 +11,7 @@ class PromotionsController < ApplicationController
   # GET /promotions/1
   # GET /promotions/1.json
   def show
+    render json: @promotion
   end
 
   # GET /promotions/new
