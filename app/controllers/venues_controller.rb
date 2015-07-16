@@ -28,9 +28,9 @@ class VenuesController < ApplicationController
     @venue = Venue.new(venue_params)
 
     if @venue.save
-      render json: {status: :created, @venue}
+      render json: {status: :created, venue: @venue}
     else
-      render json: { @venue.errors, status: :unprocessable_entity }
+      render json: { error: @venue.errors, status: :unprocessable_entity }
     end
   end
 
@@ -38,9 +38,9 @@ class VenuesController < ApplicationController
   # PATCH/PUT /venues/1.json
   def update
     if @venue.update(venue_params)
-      render json: { status: :ok, @venue }
+      render json: { status: :ok, venue: @venue }
     else
-      render json: {@venue.errors, status: :unprocessable_entity }
+      render json: {error: @venue.errors, status: :unprocessable_entity }
     end
   end
 
