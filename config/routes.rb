@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   resources :application
 
   resources :promotions
-  resources :promoters
+  resources :venues
 
   get '*path' => redirect('/')
   # The priority is based upon order of creation: first created -> highest priority.
