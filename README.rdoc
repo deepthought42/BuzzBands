@@ -1,28 +1,18 @@
-== README
+<h3>Connect to Database</h3>
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+On the command line navigate to the buzzbands folder and run the following commands:
+  rename buzzbands/config/database.yml~ to buzzbands/config/database.yml. 
+  Replace 'user_here' with your username.
+  Replace 'password_here' with your password.
+  
+  Navigate to the top of the buzzbands folder on the command line.
 
-Things you may want to cover:
+    rake db:setup
 
-* Ruby version
+  install bundled gems bundle install
+  
+<h5>Start server rails server</h5>
 
-* System dependencies
+Navigation to the buzzbands folder and type in the following command on the command line.
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+rails s
