@@ -1,18 +1,16 @@
 class User < ActiveRecord::Base
   resourcify
-  rolify :before_add => :assign_role
-
-  belongs_to :role
+  rolify
 
   # Include default devise modules.
   devise :database_authenticatable, :registerable,
           :recoverable, :rememberable, :trackable, :validatable, :omniauthable
   include DeviseTokenAuth::Concerns::User
 
+  before_create :default_role
 
   private
-    def assign_role
-      Rails.Logger("shits' week!")
-      self.role = Role.find_by name: "regular" if self.role.nil?
-    end
+  def default_role
+    self.roles << Role.where(:name => 'regular').first
+  end
 end
