@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, except: [:roles]
+  before_action :authenticate_user!, except: [:roles, :index]
 
   # GET /users
   # GET /users.json
@@ -31,13 +31,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET /users/:id/roles
-  # GET /users/:id/roles.json
-  def roles
-    @user = User.find(params[:id])
-    render json: @user.roles
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -46,6 +39,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :nickname, :email, :uid);
+      params.require(:user).permit(:name, :nickname, :email, :uid, :role);
     end
 end

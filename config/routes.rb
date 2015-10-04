@@ -4,13 +4,9 @@ Rails.application.routes.draw do
 
   resources :promotions
   resources :venues
-
+  resources :roles
   scope "/admin" do
-    resources :users do
-      member do
-        get 'roles'
-      end
-    end
+    resources :users
   end
   get '*path' => redirect('/')
   # The priority is based upon order of creation: first created -> highest priority.
