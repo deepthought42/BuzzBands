@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, except: [:roles, :index]
+  before_action :authenticate_user!, except: [:index]
 
   # GET /users
   # GET /users.json

@@ -1,4 +1,5 @@
 class VenuesController < ApplicationController
+  resourcify
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_venue, only: [:show, :edit, :update, :destroy]
 

@@ -1,7 +1,4 @@
 class User < ActiveRecord::Base
-  resourcify
-
-  enum role: [:user, :worker, :manager, :admin]
   after_initialize :set_default_role, :if => :new_record?
 
   def set_default_role
