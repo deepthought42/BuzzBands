@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   resources :promotions
   resources :venues
+  resources :roles
   scope "/admin" do
     resources :users
   end
