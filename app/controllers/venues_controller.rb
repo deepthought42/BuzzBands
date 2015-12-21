@@ -1,6 +1,6 @@
 class VenuesController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_venue, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:index, :show, :getPromotions]
+  before_action :set_venue, only: [:show, :edit, :update, :destroy, :getPromotions]
 
   # GET /venues
   # GET /venues.json
@@ -34,6 +34,11 @@ class VenuesController < ApplicationController
     else
       render json: { error: @venue.errors, status: :unprocessable_entity }
     end
+  end
+
+  def getPromotions
+    @promotions = @venue.promotions
+    render json: @promotions
   end
 
   # PATCH/PUT /venues/1

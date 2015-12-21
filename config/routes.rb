@@ -3,7 +3,10 @@ Rails.application.routes.draw do
   resources :application
 
   resources :promotions
+
   resources :venues
+  get '/venues/:id/promotions', to: 'venues#getPromotions', as: 'venuePromotions'
+
   resources :roles
   scope "/admin" do
     resources :users
