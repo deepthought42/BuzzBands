@@ -12,7 +12,6 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     @user = User.find(user_params[:id])
-    authorize @user
     if @user.update(user_params)
       render json: { status: :ok, user: @user }
     else
@@ -39,6 +38,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :nickname, :email, :uid, :role, :image);
+      params.require(:user).permit(:id, :name, :nickname, :email, :uid, :role, :image);
     end
 end
