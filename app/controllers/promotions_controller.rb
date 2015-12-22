@@ -40,7 +40,7 @@ class PromotionsController < ApplicationController
   # PATCH/PUT /promotions/1.json
   def update
     @promotion = Promotion.find(promotion_params[:id])
-    authorize @promotion
+    #authorize @promotion
     if @promotion.update(promotion_params)
       render json: { status: :ok, promotion: @promotion }
     else
@@ -66,6 +66,6 @@ class PromotionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def promotion_params
-      params.require(:promotion).permit(:name, :ad_location, :start_time, :end_time)
+      params.require(:promotion).permit(:id, :name, :ad_location, :start_time, :end_time)
     end
 end
