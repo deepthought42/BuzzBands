@@ -41,6 +41,12 @@ class VenuesController < ApplicationController
     render json: @promotions
   end
 
+  #GET /venues/1/users.json
+  def getUsers
+    @users = @venue.users
+    render json: @users
+  end
+
   # PATCH/PUT /venues/1
   # PATCH/PUT /venues/1.json
   def update
@@ -69,6 +75,6 @@ class VenuesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def venue_params
-      params.require(:venue).permit(:name, :address, :city, :state, :zip_code, :url, :active)
+      params.require(:venue).permit(:name, :address, :city, :state, :zip_code, :url, :active, :user)
     end
 end

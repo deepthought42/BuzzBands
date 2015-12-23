@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!, except: [:index]
-
+  
   # GET /users
   # GET /users.json
   def index
@@ -38,6 +38,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:id, :name, :nickname, :email, :uid, :role, :image);
+      params.require(:user).permit(:id, :name, :nickname, :email, :uid, :role, :image, :confirm_success_url, :confirm_name, :registration);
     end
 end
