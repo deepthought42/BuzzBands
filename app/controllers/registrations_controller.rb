@@ -4,7 +4,15 @@ class RegistrationsController < Devise::RegistrationsController
     logger.info "VENUES FOR USER :: #{@venue.name}"
 
     super
-    @user.venues.push(@venue)
+    @userVenue = UserVenue.new()
+    @userVenue.venue_id = params[:venue_id]
+    @userVenue.role = params[:role]
+    @user.user_venues.push(@userVenue)
+    @user.user_venues.first.role = params[:role]
+
+    logger.info "VENUES FOR USER :: #{@userVenue.role}"
+
+
   end
 
   protected
