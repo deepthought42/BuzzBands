@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151223041111) do
+ActiveRecord::Schema.define(version: 20160105004842) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,17 @@ ActiveRecord::Schema.define(version: 20151223041111) do
 
   add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
 
+  create_table "user_venues", force: :cascade do |t|
+    t.integer  "venue_id"
+    t.integer  "user_id"
+    t.integer  "role"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "user_venues", ["user_id"], name: "index_users_venues_on_user_id", using: :btree
+  add_index "user_venues", ["venue_id"], name: "index_users_venues_on_venue_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "provider",                            null: false
     t.string   "uid",                    default: "", null: false
@@ -59,7 +70,7 @@ ActiveRecord::Schema.define(version: 20151223041111) do
     t.text     "tokens"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "role"
+    t.integer  "role",                   default: 1,  null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree
@@ -73,17 +84,6 @@ ActiveRecord::Schema.define(version: 20151223041111) do
 
   add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
 
-  create_table "users_venues", force: :cascade do |t|
-    t.integer  "venue_id"
-    t.integer  "user_id"
-    t.integer  "role"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "users_venues", ["user_id"], name: "index_users_venues_on_user_id", using: :btree
-  add_index "users_venues", ["venue_id"], name: "index_users_venues_on_venue_id", using: :btree
-
   create_table "venues", force: :cascade do |t|
     t.string   "name"
     t.string   "address"
@@ -94,6 +94,7 @@ ActiveRecord::Schema.define(version: 20151223041111) do
     t.datetime "updated_at",           null: false
     t.boolean  "active"
     t.string   "url"
+    t.string   "category"
   end
 
 end
