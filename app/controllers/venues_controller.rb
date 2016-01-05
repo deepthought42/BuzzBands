@@ -57,10 +57,13 @@ class VenuesController < ApplicationController
     end
   end
 
+  # Sets venue active status to false.
+  #  NB : System does not allow record deletion of venues
+  #
   # DELETE /venues/1
   # DELETE /venues/1.json
   def destroy
-    if @venue.destroy
+    if @venue.update({active: false})
       render json: { status: :ok }
     else
       render json: { status: :unprocessable_entity}
