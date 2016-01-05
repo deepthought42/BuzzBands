@@ -1,4 +1,4 @@
-class PackageController < ApplicationController
+class PackagesController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
 
   # GET /promotions

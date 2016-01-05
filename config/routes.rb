@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   resources :venues
   get '/venues/:id/promotions', to: 'venues#getPromotions', as: 'venuePromotions'
-
+  get '/packages', to: 'packages#index', as: 'Packages'
   resources :roles
   scope "/admin" do
     resources :users
