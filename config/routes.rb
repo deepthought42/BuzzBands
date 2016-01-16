@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :promotions
 
   resources :venues
+  resources :orders
   get '/venues/:id/promotions', to: 'venues#getPromotions', as: 'venuePromotions'
   get '/packages', to: 'packages#index', as: 'Packages'
   resources :roles

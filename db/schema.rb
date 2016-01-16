@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20160116141651) do
     t.string   "band_count", null: false
     t.string   "price",      null: false
     t.string   "status",     null: false
+    t.string   "color",      null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

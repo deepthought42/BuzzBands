@@ -6,6 +6,7 @@ class CreateOrders < ActiveRecord::Migration
       t.string :band_count, null: false
       t.string :price, null: false
       t.string :status, null: false
+      t.string :color, null: false
       t.timestamps null: false
     end
   end
