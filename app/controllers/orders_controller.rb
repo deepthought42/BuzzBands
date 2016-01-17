@@ -29,6 +29,25 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
 
+    # Set your secret key: remember to change this to your live secret key in production
+    # See your keys here https://dashboard.stripe.com/account/apikeys
+    Stripe.api_key = "sk_test_oxRA6lcZZqc0AnpmjlhLVfeu"
+
+    # Get the credit card details submitted by the form
+    token = params[:stripeToken]
+
+    # Create the charge on Stripe's servers - this will charge the user's card
+    begin
+      charge = Stripe::Charge.create(
+        :amount => params[:price], # amount in cents, again
+        :currency => "usd",
+        :source => token,
+        :description => "Example charge"
+      )
+    rescue Stripe::CardError => e
+      # The card has been declined
+    end
+
     if @order.save
       render json: {order: @order, status: :created }
     else
@@ -66,6 +85,6 @@ class OrdersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
-      params.require(:order).permit(:id, :venue_id, :user_id, :band_count, :color, :price, :status)
+      params.require(:order).permit(:id, :venue_id, :user_id, :band_count, :color, :price, :status, :paymentToken)
     end
 end
