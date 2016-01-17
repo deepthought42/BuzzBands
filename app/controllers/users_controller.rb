@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!, except: [:index]
-  before_save :skip_confirmation!
+
   # GET /users
   # GET /users.json
   def index
