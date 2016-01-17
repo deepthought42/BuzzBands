@@ -20,32 +20,31 @@ class OrdersController < ApplicationController
     @order = Order.new
   end
 
-  # GET /orders/1/edit
-  def edit
+  # GET /orders/analytics/previousMonthBandOrders
+  def previousMonthBandOrders
+    @orders = Order.where("user_id = '?' AND created_at >= ? AND created_at <=?", current_user.id, Date.today.last_month.beginning_of_month, Date.today.beginning_of_month )
+    render json: @orders
   end
 
   # POST /orders
   # POST /orders.json
   def create
-    @order = Order.new(order_params)
-
     # Set your secret key: remember to change this to your live secret key in production
     # See your keys here https://dashboard.stripe.com/account/apikeys
     Stripe.api_key = "sk_test_oxRA6lcZZqc0AnpmjlhLVfeu"
 
-    # Get the credit card details submitted by the form
-    token = params[:stripeToken]
+    @order = Order.new(order_params)
 
     # Create the charge on Stripe's servers - this will charge the user's card
     begin
       charge = Stripe::Charge.create(
-        :amount => params[:price], # amount in cents, again
+        :amount => params[:price].to_i*100, # amount in cents, again
         :currency => "usd",
-        :source => token,
-        :description => "Example charge"
+        :source => customer.id,
+        :description => "Charge for #{current_user.uid}"
       )
     rescue Stripe::CardError => e
-      # The card has been declined
+      @order.errors = e
     end
 
     if @order.save

@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   resources :orders
   get '/venues/:id/promotions', to: 'venues#getPromotions', as: 'venuePromotions'
   get '/packages', to: 'packages#index', as: 'Packages'
+  get '/orders/analytics/previousMonthBandOrders', to: 'orders#previousMonthBandOrders', as: 'Orders'
+
   resources :roles
   scope "/admin" do
     resources :users
