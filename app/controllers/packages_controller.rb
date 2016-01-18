@@ -1,0 +1,80 @@
+class PackagesController < ApplicationController
+  before_action :authenticate_user! except: [:index]
+  before_action :set_package, only: [:show, :edit, :update, :destroy]
+
+  # GET /packages
+  # GET /packages.json
+  def index
+    @packages = Package.all
+    render json: @packages
+  end
+
+  # GET /packages/1
+  # GET /packages/1.json
+  def show
+    render json: @package
+  end
+
+  # GET /packages/new
+  def new
+    @package = Package.new
+  end
+
+  # POST /packages
+  # POST /packages.json
+  def create
+    @package = Package.new(package_params)
+    @package.active = FALSE
+    if @package.save
+      render json: {status: :created, package: @package}
+    else
+      render json: { error: @package.errors, status: :unprocessable_entity }
+    end
+  end
+
+  def getPromotions
+    @promotions = @package.promotions
+    render json: @promotions
+  end
+
+  #GET /packages/1/users.json
+  def getUsers
+    @users = @package.users
+    render json: @users
+  end
+
+  # PATCH/PUT /packages/1
+  # PATCH/PUT /packages/1.json
+  def update
+    if @package.update(package_params)
+      render json: { status: :ok, package: @package }
+    else
+      render json: {error: @package.errors, status: :unprocessable_entity }
+    end
+  end
+
+  # Sets package active status to false.
+  #  NB : System does not allow record deletion of packages
+  #
+  # DELETE /packages/1
+  # DELETE /packages/1.json
+  def destroy
+    if @package.destroy
+      render json: { status: :ok }
+    else
+      render json: { status: :unprocessable_entity}
+    end
+  end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_package
+      @package = Package.find(params[:id])
+    end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def package_params
+      params.require(:package).permit(:name, :venue_count, :promotion_count, :band_fee, :price)
+    end
+  end
+end

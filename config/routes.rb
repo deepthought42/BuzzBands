@@ -2,10 +2,10 @@ Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'api/auth' #, :controllers => { :registrations => "registrations" }
 
   resources :application
-
   resources :promotions
-
   resources :venues
+  resources :accounts
+  resources :packages
   resources :orders
   get '/venues/:id/promotions', to: 'venues#getPromotions', as: 'venuePromotions'
   get '/bandPackages', to: 'band_packages#index', as: 'BandPackages'
