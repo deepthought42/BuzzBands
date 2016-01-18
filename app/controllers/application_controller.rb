@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  include CanCan::ControllerAdditions
+  include Pundit
   include DeviseTokenAuth::Concerns::SetUserByToken
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
