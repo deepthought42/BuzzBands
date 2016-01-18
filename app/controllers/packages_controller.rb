@@ -32,17 +32,6 @@ class PackagesController < ApplicationController
     end
   end
 
-  def getPromotions
-    @promotions = @package.promotions
-    render json: @promotions
-  end
-
-  #GET /packages/1/users.json
-  def getUsers
-    @users = @package.users
-    render json: @users
-  end
-
   # PATCH/PUT /packages/1
   # PATCH/PUT /packages/1.json
   def update

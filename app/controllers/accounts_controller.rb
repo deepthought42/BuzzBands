@@ -23,14 +23,22 @@ class AccountsController < ApplicationController
   # POST /accounts
   # POST /accounts.json
   def create
+    # Get the credit card details submitted by the form
+    token = params[:stripeToken]
+
+    # Create a Customer
+    customer = Stripe::Customer.create(
+      :source => token,
+      :plan => params[:package_name],
+      :email => current_user.email
+    )
+
     @account = Account.new(account_params)
+    @account.stripe_customer_id = customer.id
     @account.user = current_user
-    @account.active = FALSE
+    @account.active = TRUE
 
     if @account.save
-      #Create account with Stripe
-
-      #Collect payment via stripe
       render json: {status: :created, account: @account}
     else
       render json: { error: @account.errors, status: :unprocessable_entity }
@@ -79,7 +87,7 @@ class AccountsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def account_params
-      params.require(:account).permit(:package_id, :payment_token)
+      params.require(:account).permit(:package_name, :stripeToken)
     end
   end
 end
