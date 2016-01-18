@@ -7,6 +7,6 @@ class PromotionPolicy < ApplicationPolicy
   end
 
   def update?
-    user.admin?
+    user.role >= 3
   end
 end

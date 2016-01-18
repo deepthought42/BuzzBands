@@ -68,6 +68,6 @@ class PromotionsController < ApplicationController
     def promotion_params
       params.require(:promotion).permit(:id, :name, :ad_location,
                                         :start_time, :end_time, :active,
-                                        :venue_id, :description, :created_at, :updated_at)
+                                        :venue_id, :description)
     end
 end
