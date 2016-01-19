@@ -5,7 +5,19 @@ class VenuesController < ApplicationController
   # GET /venues
   # GET /venues.json
   def index
-    @venues = Venue.all
+    if current_user && current_user.role == 1 #general user
+      #should be changed to all promotions for venues near the user
+      @venues = Venue.all
+    elsif current_user && current_user.role == 2 #account_user - not currently used
+      @userVenues = UserVenue.where(user_id: current_user.id).collect(&:venue_id)
+      @venues = Venue.find(@userVenues)
+    elsif current_user && current_user.role == 3 #admin
+      #get all promotions for all venues that the user is registered with
+      @userVenues = UserVenue.where(user_id: current_user.id).collect(&:venue_id)
+      @venues = Venue.find(@userVenues)
+    elsif current_user && current_user.role == 4
+      @venues = Venue.all
+    end
     render json: @venues
   end
 
