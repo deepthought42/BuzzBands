@@ -5,18 +5,20 @@ class VenuesController < ApplicationController
   # GET /venues
   # GET /venues.json
   def index
-    logger.debug "Role for user : #{current_user.role}"
-    if current_user && current_user.role == 'user' #general user
+    @user = User.find(current_user.id)
+    logger.debug "Role for user : #{@user.id} -- #{@user.role}"
+
+    if !current_user || @user.role == 'user' #general user
       #should be changed to all promotions for venues near the user
       @venues = Venue.all
-    elsif current_user && current_user.role == 'account_user' #account_user - not currently used
+    elsif current_user && @user.role == 'account_user' #account_user - not currently used
       @userVenues = UserVenue.where(user_id: current_user.id).collect(&:venue_id)
       @venues = Venue.find(@userVenues)
-    elsif current_user && current_user.role == "admin" #admin
+    elsif current_user && @user.role == "admin" #admin
       #get all promotions for all venues that the user is registered with
       @userVenues = UserVenue.where(user_id: current_user.id).collect(&:venue_id)
       @venues = Venue.find(@userVenues)
-    elsif current_user && current_user.role == "buzzbands_employee"
+    elsif current_user && @user.role == "buzzbands_employee"
       @venues = Venue.all
     end
     render json: @venues
