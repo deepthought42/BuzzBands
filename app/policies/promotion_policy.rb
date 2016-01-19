@@ -7,14 +7,14 @@ class PromotionPolicy < ApplicationPolicy
   end
 
   def update?
-    @user.role >= 3
+    @user.admin? || @user.buzzbands_employee?
   end
 
   def create?
-    @user.role >= 3
+    @user.admin? || @user.buzzbands_employee?
   end
 
   def destroy?
-    @user.role >= 3
+    @user.admin? || @user.buzzbands_employee?
   end
 end

@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
   has_many :orders
   has_many :user_venues
   has_many :venues, :through => :user_venues
+  enum role: [:user, :account_user, :admin, :buzzbands_employee]
+
   after_initialize :set_default_role, :if => :new_record?
 
   def set_default_role

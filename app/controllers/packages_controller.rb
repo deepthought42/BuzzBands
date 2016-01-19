@@ -1,6 +1,8 @@
 class PackagesController < ApplicationController
+  include Pundit
   before_action :authenticate_user! except: [:index]
   before_action :set_package, only: [:show, :edit, :update, :destroy]
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   # GET /packages
   # GET /packages.json
@@ -35,6 +37,7 @@ class PackagesController < ApplicationController
   # PATCH/PUT /packages/1
   # PATCH/PUT /packages/1.json
   def update
+    authorize @package
     if @package.update(package_params)
       render json: { status: :ok, package: @package }
     else
@@ -64,6 +67,10 @@ class PackagesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def package_params
       params.require(:package).permit(:name, :venue_count, :promotion_count, :band_fee, :price)
+    end
+
+    def user_not_authorized
+      render json: {status: :unauthorized, message: "You are not authorized to perform this action."}
     end
   end
 end

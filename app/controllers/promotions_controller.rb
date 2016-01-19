@@ -1,21 +1,23 @@
 class PromotionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_promotion, only: [:show, :edit, :update, :destroy]
+  #after_action :verify_authorized, except: :index
+  #rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   # GET /promotions
   # GET /promotions.json
   def index
-    if current_user && current_user.role == 1 #general user
+    if current_user && current_user.role == "user" #general user
       #should be changed to all promotions for venues near the user
       @promotions = Promotion.all
-    elsif current_user && current_user.role == 2 #account_user - not currently used
+    elsif current_user && current_user.role == "account_user" #account_user - not currently used
       @userVenues = UserVenue.where(user_id: current_user.id).collect(&:venue_id)
       @promotions = Promotion.where(venue_id: @userVenues)
-    elsif current_user && current_user.role == 3 #admin
+    elsif current_user && current_user.role == "admin" #admin
       #get all promotions for all venues that the user is registered with
       @userVenues = UserVenue.where(user_id: current_user.id).collect(&:venue_id)
       @promotions = Promotion.where(venue_id: @userVenues)
-    elsif current_user && current_user.role == 4
+    elsif current_user && current_user.role == "buzzbands_employee"
       @promotions = Promotion.all
     end
     render json: @promotions
@@ -32,15 +34,11 @@ class PromotionsController < ApplicationController
     @promotion = Promotion.new
   end
 
-  # GET /promotions/1/edit
-  def edit
-  end
-
   # POST /promotions
   # POST /promotions.json
   def create
     @promotion = Promotion.new(promotion_params)
-
+    authorize @promotion
     if @promotion.save
       render json: {promotion: @promotion, status: :created }
     else
@@ -52,7 +50,7 @@ class PromotionsController < ApplicationController
   # PATCH/PUT /promotions/1.json
   def update
     @promotion = Promotion.find(promotion_params[:id])
-    #authorize @promotion
+    authorize @promotion
     if @promotion.update(promotion_params)
       render json: { status: :ok, promotion: @promotion }
     else
@@ -63,6 +61,8 @@ class PromotionsController < ApplicationController
   # DELETE /promotions/1
   # DELETE /promotions/1.json
   def destroy
+    authorize @promotion
+
     if @promotion.destroy
       render json: { status: :ok }
     else
@@ -81,5 +81,9 @@ class PromotionsController < ApplicationController
       params.require(:promotion).permit(:id, :name, :ad_location,
                                         :start_time, :end_time, :active,
                                         :venue_id, :description)
+    end
+
+    def user_not_authorized
+      render json: {status: :unauthorized, message: "You are not authorized to perform this action."}
     end
 end
