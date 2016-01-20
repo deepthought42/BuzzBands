@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   # GET /users.json
   def index
     @users = User.all
+    authorize @users
     render json: @users
   end
 
@@ -12,6 +13,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     @user = User.find(user_params[:id])
+    authorize @user
     if @user.update(user_params)
       render json: { status: :ok, user: @user }
     else
@@ -23,6 +25,7 @@ class UsersController < ApplicationController
   # DELETE /users/1.json
   def destroy
     @user = User.find(params[:id])
+    authorize @user
     if @user.destroy
       render json: { status: :ok }
     else

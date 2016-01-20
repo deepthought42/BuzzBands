@@ -1,12 +1,14 @@
 class VenuesController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show, :getPromotions]
   before_action :set_venue, only: [:show, :edit, :update, :destroy, :getPromotions]
-
+  after_action :verify_authorized, except: :index
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   # GET /venues
   # GET /venues.json
   def index
-    @user = User.find(current_user.id)
-    logger.debug "Role for user : #{@user.id} -- #{@user.role}"
+    if current_user
+      @user = User.find(current_user.id)
+    end
 
     if !current_user || @user.role == 'user' #general user
       #should be changed to all promotions for venues near the user
@@ -27,6 +29,7 @@ class VenuesController < ApplicationController
   # GET /venues/1
   # GET /venues/1.json
   def show
+    authorize @venue
     render json: @venue
   end
 
@@ -35,15 +38,13 @@ class VenuesController < ApplicationController
     @venue = Venue.new
   end
 
-  # GET /venues/1/edit
-  def edit
-  end
-
   # POST /venues
   # POST /venues.json
   def create
     @venue = Venue.new(venue_params)
     @venue.active = FALSE
+    authorize @venue
+
     if @venue.save
       render json: {status: :created, venue: @venue}
     else
@@ -58,6 +59,7 @@ class VenuesController < ApplicationController
 
   #GET /venues/1/users.json
   def getUsers
+    authorize @venue
     @users = @venue.users
     render json: @users
   end
@@ -65,6 +67,7 @@ class VenuesController < ApplicationController
   # PATCH/PUT /venues/1
   # PATCH/PUT /venues/1.json
   def update
+    authorize @venue
     if @venue.update(venue_params)
       render json: { status: :ok, venue: @venue }
     else

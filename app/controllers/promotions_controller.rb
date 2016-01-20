@@ -26,6 +26,7 @@ class PromotionsController < ApplicationController
   # GET /promotions/1
   # GET /promotions/1.json
   def show
+    authorize @promotion
     render json: @promotion
   end
 
