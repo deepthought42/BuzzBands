@@ -1,22 +1,27 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_order, only: [:show, :edit, :update, :destroy]
+  after_action :verify_authorized, except: :index
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   # GET /orders
   # GET /orders.json
   def index
     @orders = Order.all
+    authorize @orders
     render json: @orders
   end
 
   # GET /orders/1
   # GET /orders/1.json
   def show
+    authorize @order
     render json: @order
   end
 
   # GET /orders/new
   def new
+    authorize @order
     @order = Order.new
   end
 
@@ -34,6 +39,7 @@ class OrdersController < ApplicationController
     Stripe.api_key = "sk_test_oxRA6lcZZqc0AnpmjlhLVfeu"
 
     @order = Order.new(order_params)
+    authorize @order
 
     # Create the charge on Stripe's servers - this will charge the user's card
     begin
@@ -58,6 +64,8 @@ class OrdersController < ApplicationController
   # PATCH/PUT /orders/1.json
   def update
     @order = Order.find(order_params[:id])
+    authorize @order
+
     #authorize @order
     if @order.update(order_params)
       render json: { status: :ok, order: @order }
@@ -69,6 +77,8 @@ class OrdersController < ApplicationController
   # DELETE /orders/1
   # DELETE /orders/1.json
   def destroy
+    authorize @order
+
     if @order.destroy
       render json: { status: :ok }
     else
