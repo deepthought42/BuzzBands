@@ -1,9 +1,10 @@
 class UserPolicy < ApplicationPolicy
-  attr_reader :current_user, user_1
-
-  def initialize(current_user, user_1)
-    @user = current_user
-    @user_1 = user_1
+  class Scope < Scope
+    def resolve
+      if user.buzzbands_employee?
+        scope.all
+      end
+    end
   end
 
   def index?
