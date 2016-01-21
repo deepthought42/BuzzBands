@@ -6,6 +6,10 @@ class UserPolicy < ApplicationPolicy
     @user_1 = user_1
   end
 
+  def index?
+    @user.admin? || @user.buzzbands_employee?
+  end
+
   def update?
     @user.admin? || @user.buzzbands_employee?
   end

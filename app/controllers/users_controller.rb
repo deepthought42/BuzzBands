@@ -1,11 +1,13 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!, except: [:index]
+  after_action :verify_authorized, except: :index
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   # GET /users
   # GET /users.json
   def index
     @users = User.all
-    authorize @users
+    #authorize @users
     render json: @users
   end
 
