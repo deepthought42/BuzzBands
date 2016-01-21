@@ -43,4 +43,8 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:id, :name, :nickname, :email, :uid, :role, :image, :confirm_success_url, :confirm_name, :registration);
     end
+
+    def user_not_authorized
+      render json: {status: :unauthorized, message: "You are not authorized to perform this action."}
+    end
 end

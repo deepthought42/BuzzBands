@@ -96,4 +96,8 @@ class OrdersController < ApplicationController
     def order_params
       params.require(:order).permit(:id, :venue_id, :user_id, :band_count, :color, :price, :status, :paymentToken)
     end
+
+    def user_not_authorized
+      render json: {status: :unauthorized, message: "You are not authorized to perform this action."}
+    end
 end
