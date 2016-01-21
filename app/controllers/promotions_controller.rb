@@ -64,7 +64,7 @@ class PromotionsController < ApplicationController
   def destroy
     authorize @promotion
 
-    if @promotion.destroy
+    if @promotion.update({active: false})
       render json: { status: :ok }
     else
       render json: { status: :unprocessable_entity}
