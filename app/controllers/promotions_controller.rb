@@ -7,17 +7,21 @@ class PromotionsController < ApplicationController
   # GET /promotions
   # GET /promotions.json
   def index
-    if current_user && current_user.role == "user" #general user
+    if current_user
+      @user = User.find(current_user.id)
+    end
+
+    if current_user && @user.role == "user" #general user
       #should be changed to all promotions for venues near the user
       @promotions = Promotion.all
-    elsif current_user && current_user.role == "account_user" #account_user - not currently used
+    elsif current_user && @user.role == "account_user" #account_user - not currently used
       @userVenues = UserVenue.where(user_id: current_user.id).collect(&:venue_id)
       @promotions = Promotion.where(venue_id: @userVenues)
-    elsif current_user && current_user.role == "admin" #admin
+    elsif current_user && @user.role == "admin" #admin
       #get all promotions for all venues that the user is registered with
       @userVenues = UserVenue.where(user_id: current_user.id).collect(&:venue_id)
       @promotions = Promotion.where(venue_id: @userVenues)
-    elsif current_user && current_user.role == "buzzbands_employee"
+    elsif current_user && @user.role == "buzzbands_employee"
       @promotions = Promotion.all
     end
     render json: @promotions
