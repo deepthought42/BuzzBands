@@ -6,10 +6,6 @@ class VenuePolicy < ApplicationPolicy
     @venue = venue
   end
 
-  def show?
-    @user.admin? || @user.buzzbands_employee?
-  end
-
   def update?
     @user.admin? || @user.buzzbands_employee?
   end

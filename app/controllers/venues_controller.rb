@@ -1,7 +1,7 @@
 class VenuesController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show, :getPromotions]
   before_action :set_venue, only: [:show, :edit, :update, :destroy, :getPromotions]
-  after_action :verify_authorized, except: :index
+  after_action :verify_authorized, except: [:index, :show]
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   # GET /venues
   # GET /venues.json
@@ -29,7 +29,6 @@ class VenuesController < ApplicationController
   # GET /venues/1
   # GET /venues/1.json
   def show
-    authorize @venue
     render json: @venue
   end
 

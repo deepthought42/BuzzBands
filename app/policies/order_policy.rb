@@ -29,4 +29,8 @@ class OrderPolicy < ApplicationPolicy
   def destroy?
     @user.admin? || @user.buzzbands_employee?
   end
+
+  def previousMonthBandOrders?
+    @user.admin? || @user.buzzbands_employee?
+  end
 end

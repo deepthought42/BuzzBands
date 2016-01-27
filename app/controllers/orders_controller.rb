@@ -28,6 +28,8 @@ class OrdersController < ApplicationController
   # GET /orders/analytics/previousMonthBandOrders
   def previousMonthBandOrders
     @orders = Order.where("user_id = '?' AND created_at >= ? AND created_at <=?", current_user.id, Date.today.last_month.beginning_of_month, Date.today.beginning_of_month )
+    authorize @orders
+
     render json: @orders
   end
 
