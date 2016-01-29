@@ -1,9 +1,12 @@
 class OrderPolicy < ApplicationPolicy
-  attr_reader :user, :order
-
-  def initialize(user, order)
-    @user = user
-    @order = order
+  class Scope < Scope
+    def resolve
+      if user.role == 'buzzbands_employee'
+        scope.all
+      elsif user.role == 'admin'
+        #get all orders for user
+      end
+    end
   end
 
   def show?
