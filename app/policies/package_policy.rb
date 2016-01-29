@@ -1,4 +1,4 @@
-class PackagePolicy < ApplicationPolicy
+class UserPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       if user.role == 'buzzbands_employee'
@@ -8,15 +8,15 @@ class PackagePolicy < ApplicationPolicy
   end
 
   def index?
-    @user.buzzbands_employee?
+    @user.admin? || @user.buzzbands_employee?
   end
 
   def update?
-    user.admin? || @user.buzzbands_employee?
+    @user.admin? || @user.buzzbands_employee?
   end
 
   def create?
-    user.user? || @user.buzzbands_employee?
+    @user.admin? || @user.buzzbands_employee?
   end
 
   def destroy?

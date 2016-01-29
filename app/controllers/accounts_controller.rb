@@ -1,7 +1,9 @@
 class AccountsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_account, only: [:show, :edit, :update, :destroy]
-
+  after_action :verify_authorized, except: [:index]
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+  
   # GET /accounts
   # GET /accounts.json
   def index
@@ -12,6 +14,7 @@ class AccountsController < ApplicationController
   # GET /accounts/1
   # GET /accounts/1.json
   def show
+    authorize @package
     render json: @account
   end
 
@@ -34,6 +37,8 @@ class AccountsController < ApplicationController
     )
 
     @account = Account.new(account_params)
+    authorize @package
+
     @account.stripe_customer_id = customer.id
     @account.user = current_user
     @account.active = TRUE
@@ -47,18 +52,22 @@ class AccountsController < ApplicationController
 
   def getPromotions
     @promotions = @account.promotions
+    authorize @package
     render json: @promotions
   end
 
   #GET /accounts/1/users.json
   def getUsers
+    authorize @account
     @users = @account.users
+
     render json: @users
   end
 
   # PATCH/PUT /accounts/1
   # PATCH/PUT /accounts/1.json
   def update
+    authorize @account
     if @account.update(account_params)
       render json: { status: :ok, account: @account }
     else
@@ -72,6 +81,7 @@ class AccountsController < ApplicationController
   # DELETE /accounts/1
   # DELETE /accounts/1.json
   def destroy
+    authorize @account
     if @account.update({active: false})
       render json: { status: :ok }
     else
