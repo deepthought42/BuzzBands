@@ -1,22 +1,16 @@
-class UserPolicy < ApplicationPolicy
+cclass PackagePolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      if user.role == 'buzzbands_employee'
-        scope.all
-      end
+      scope.all
     end
   end
 
-  def index?
-    @user.admin? || @user.buzzbands_employee?
-  end
-
   def update?
-    @user.admin? || @user.buzzbands_employee?
+    user.admin? || @user.buzzbands_employee?
   end
 
   def create?
-    @user.admin? || @user.buzzbands_employee?
+    user.user? || @user.buzzbands_employee?
   end
 
   def destroy?

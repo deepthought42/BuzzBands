@@ -1,20 +1,22 @@
 class AccountsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_account, only: [:show, :edit, :update, :destroy]
-  after_action :verify_authorized, except: [:index]
+  after_action :verify_authorized, except: [:create]
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-  
+
   # GET /accounts
   # GET /accounts.json
   def index
     @accounts = Account.all
+    authorize @accounts
+
     render json: @accounts
   end
 
   # GET /accounts/1
   # GET /accounts/1.json
   def show
-    authorize @package
+    authorize @accounts
     render json: @account
   end
 
@@ -37,7 +39,7 @@ class AccountsController < ApplicationController
     )
 
     @account = Account.new(account_params)
-    authorize @package
+    authorize @account
 
     @account.stripe_customer_id = customer.id
     @account.user = current_user
@@ -52,7 +54,7 @@ class AccountsController < ApplicationController
 
   def getPromotions
     @promotions = @account.promotions
-    authorize @package
+    authorize @account
     render json: @promotions
   end
 
