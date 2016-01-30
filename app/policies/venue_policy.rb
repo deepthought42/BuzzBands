@@ -14,10 +14,6 @@ class VenuePolicy < ApplicationPolicy
     @user.admin? || @user.buzzbands_employee?
   end
 
-  def index?
-    @user.admin? || @user.buzzbands_employee?
-  end
-
   def destroy?
     @user.admin? || @user.buzzbands_employee?
   end

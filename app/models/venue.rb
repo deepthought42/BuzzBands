@@ -4,7 +4,7 @@ class Venue < ActiveRecord::Base
   has_many :user_venues
   has_many :users, :through => :user_venues
 
-  validates :name, presence: true, length: {minimum: 5}
+  validates :name, presence: true
   validates :address, presence: true
   validates :city, presence: true
   validates :state, presence: true
