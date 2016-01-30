@@ -1,13 +1,16 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, except: [:index]
-  after_action :verify_authorized
+  before_action :authenticate_user!
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
+
+  after_action :verify_authorized, except: :index
+  after_action :verify_policy_scoped, only: :index
+
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   # GET /users
   # GET /users.json
   def index
     @users = policy_scope(User)
-    authorize @users
     render json: @users
   end
 
@@ -43,7 +46,7 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:id, :name, :nickname, :email, :uid, :role, :image, :confirm_success_url, :confirm_name, :registration);
+      params.require(:user).permit(:id, :name, :nickname, :email, :uid, :role, :image, :confirm_success_url, :confirm_name, :registration, :session);
     end
 
     def user_not_authorized

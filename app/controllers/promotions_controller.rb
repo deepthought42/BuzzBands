@@ -1,5 +1,5 @@
 class PromotionsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:show]
   before_action :set_promotion, only: [:show, :edit, :update, :destroy]
   after_action :verify_authorized, except: [:index, :show]
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
@@ -23,6 +23,8 @@ class PromotionsController < ApplicationController
       @userVenues = UserVenue.where(user_id: current_user.id).collect(&:venue_id)
       @promotions = Promotion.where(venue_id: @userVenues)
     elsif current_user && @user.role == "buzzbands_employee"
+      @promotions = Promotion.all
+    else
       @promotions = Promotion.all
     end
     render json: @promotions
