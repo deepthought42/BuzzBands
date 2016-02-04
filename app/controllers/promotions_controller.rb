@@ -13,7 +13,8 @@ class PromotionsController < ApplicationController
 
     if current_user && @user.role == "user" #general user
       #should be changed to all promotions for venues near the user
-      @promotions = Promotion.where('start_time >= :time_now or end_time >= :time_now',
+      @promotions = Promotion.where('active=:isActive and (start_time >= :time_now or end_time >= :time_now)',
+                                    :isActive => true,
                                     :time_now  => Time.now)
     elsif current_user && @user.role == "account_user" #account_user - not currently used
       @userVenues = UserVenue.where(user_id: current_user.id).collect(&:venue_id)
