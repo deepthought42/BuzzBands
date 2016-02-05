@@ -14,6 +14,20 @@ class UsersController < ApplicationController
     render json: @users
   end
 
+  # POST /users
+  # POST /users.json
+  def create
+    @user = User.new(user_params)
+    @user.active = FALSE
+    authorize @user
+
+    if @user.save
+      render json: {status: :created, user: @user}
+    else
+      render json: { error: @user.errors, status: :unprocessable_entity }
+    end
+  end
+
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
