@@ -7,6 +7,10 @@ class UserPolicy < ApplicationPolicy
     end
   end
 
+  def activate?
+    @user.buzzbands_employee?
+  end
+
   def update?
     @user.admin? || @user.buzzbands_employee?
   end

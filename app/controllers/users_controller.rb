@@ -35,7 +35,6 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    @user = User.find(params[:id])
     authorize @user
     if @user.update({active: false})
       render json: { status: :ok }
@@ -44,6 +43,15 @@ class UsersController < ApplicationController
     end
   end
 
+  def activate
+    authorize @user
+    if @user.update({active: user_params[:active]})
+      render json: { status: :ok }
+    else
+      render json: { status: :unprocessable_entity}
+    end
+  end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -52,7 +60,7 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:id, :name, :nickname, :email, :role, :image);
+      params.require(:user).permit(:id, :name, :nickname, :email, :role, :image, :active);
     end
 
     def user_not_authorized

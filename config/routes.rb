@@ -10,7 +10,8 @@ Rails.application.routes.draw do
   get '/venues/:id/promotions', to: 'venues#getPromotions', as: 'venuePromotions'
   get '/bandPackages', to: 'band_packages#index', as: 'BandPackages'
   get '/orders/analytics/previousMonthBandOrders', to: 'orders#previousMonthBandOrders', as: 'Orders'
-  get '/',                                         to: "welcome#index"
+  put '/users/:id/activate', to: 'users#activate'
+  get '/', to: "welcome#index"
 
   resources :roles
   scope "/admin" do
