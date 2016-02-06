@@ -1,8 +1,7 @@
 class Venue < ActiveRecord::Base
   has_many :promotions
   has_many :orders
-  has_many :user_venues
-  has_many :users, :through => :user_venues
+  belongs_to :account
 
   validates :name, presence: true
   validates :address, presence: true

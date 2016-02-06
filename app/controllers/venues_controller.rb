@@ -3,6 +3,7 @@ class VenuesController < ApplicationController
   before_action :set_venue, only: [:show, :edit, :update, :destroy, :getPromotions]
   after_action :verify_authorized, except: [:index, :show, :getPromotions]
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
   # GET /venues
   # GET /venues.json
   def index
@@ -14,11 +15,11 @@ class VenuesController < ApplicationController
       #should be changed to all promotions for venues near the user
       @venues = Venue.all
     elsif current_user && @user.role == 'account_user' #account_user - not currently used
-      @userVenues = UserVenue.where(user_id: current_user.id).collect(&:venue_id)
+      @userVenues = AccountVenue.where(user_id: current_user.id).collect(&:venue_id)
       @venues = Venue.find(@userVenues)
     elsif current_user && @user.role == "admin" #admin
-      #get all promotions for all venues that the user is registered with
-      @userVenues = UserVenue.where(user_id: current_user.id).collect(&:venue_id)
+      #get all promotions for all venues that the current account is registered with
+      @userVenues = AccountVenue.where(user_id: current_user.id).collect(&:venue_id)
       @venues = Venue.find(@userVenues)
     elsif current_user && @user.role == "buzzbands_employee"
       @venues = Venue.all
@@ -57,11 +58,11 @@ class VenuesController < ApplicationController
     render json: @promotions
   end
 
-  #GET /venues/1/users.json
-  def getUsers
+  #GET /venues/1/accounts.json
+  def getAccounts
     authorize @venue
-    @users = @venue.users
-    render json: @users
+    @accounts = @venue.accounts
+    render json: @accounts
   end
 
   # PATCH/PUT /venues/1

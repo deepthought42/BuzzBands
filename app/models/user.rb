@@ -2,8 +2,8 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   has_many :orders
-  has_many :user_venues
-  has_many :venues, :through => :user_venues
+  belongs_to :account
+  
   enum role: [:user, :account_user, :admin, :buzzbands_employee]
 
   after_initialize :set_default_role, :if => :new_record?

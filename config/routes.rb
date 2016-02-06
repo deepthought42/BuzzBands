@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :packages
   resources :orders
   get '/venues/:id/promotions', to: 'venues#getPromotions', as: 'venuePromotions'
+  get '/venues/:id/accounts', to: 'venues#getAccounts', as: 'venueAccounts'
   get '/bandPackages', to: 'band_packages#index', as: 'BandPackages'
   get '/orders/analytics/previousMonthBandOrders', to: 'orders#previousMonthBandOrders', as: 'Orders'
   put '/admin/users/:id/activate', to: 'users#activate'

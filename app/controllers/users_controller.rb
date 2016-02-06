@@ -52,6 +52,13 @@ class UsersController < ApplicationController
     end
   end
 
+  #GET /admin/users/1/accounts.json
+  def getAccounts
+    authorize @user
+    @accounts = @user.accounts
+    render json: @accounts
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

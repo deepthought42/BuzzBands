@@ -1,4 +1,4 @@
 class Account < ActiveRecord::Base
-  belongs_to :package
-  belongs_to :user
+  has_many :venues
+  has_many :users
 end
