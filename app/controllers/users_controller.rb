@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!, except: [:show]
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :activate]
 
   after_action :verify_authorized, except: [:index, :show]
   after_action :verify_policy_scoped, only: :index
@@ -45,13 +45,13 @@ class UsersController < ApplicationController
 
   def activate
     authorize @user
-    if @user.update({active: user_params[:active]})
+    if @user.update({active: true})
       render json: { status: :ok }
     else
       render json: { status: :unprocessable_entity}
     end
   end
-  
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
