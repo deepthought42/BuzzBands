@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
 
   has_many :orders
   belongs_to :account
-  
+
   enum role: [:user, :account_user, :admin, :buzzbands_employee]
 
   after_initialize :set_default_role, :if => :new_record?
@@ -19,5 +19,4 @@ class User < ActiveRecord::Base
      self.uid = SecureRandom.uuid
      skip_confirmation!
    end
-
 end
