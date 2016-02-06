@@ -7,10 +7,6 @@ class AccountPolicy < ApplicationPolicy
     end
   end
 
-  def index?
-    @user.buzzbands_employee?
-  end
-
   def update?
     @user.admin? || @user.buzzbands_employee?
   end

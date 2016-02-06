@@ -1,15 +1,15 @@
 class AccountsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_account, only: [:show, :edit, :update, :destroy]
-  after_action :verify_authorized, except: [:create]
+  after_action :verify_authorized, except: [:index]
+  after_action :verify_policy_scoped, only: :index
+
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   # GET /accounts
   # GET /accounts.json
   def index
-    @accounts = Account.all
-    authorize @accounts
-
+    @users = policy_scope(Account)
     render json: @accounts
   end
 
@@ -101,5 +101,8 @@ class AccountsController < ApplicationController
     def account_params
       params.require(:account).permit(:package_name, :stripeToken)
     end
-  end
+
+    def user_not_authorized
+      render json: {status: :unauthorized, message: "You are not authorized to access accounts."}
+    end
 end
