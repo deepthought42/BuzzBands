@@ -38,7 +38,6 @@ class OrdersController < ApplicationController
   def create
     # Set your secret key: remember to change this to your live secret key in production
     # See your keys here https://dashboard.stripe.com/account/apikeys
-    Stripe.api_key = "sk_test_oxRA6lcZZqc0AnpmjlhLVfeu"
 
     @order = Order.new(order_params)
     authorize @order

@@ -29,20 +29,29 @@ class AccountsController < ApplicationController
   # POST /accounts.json
   def create
     # Get the credit card details submitted by the form
-    token = params[:stripeToken]
-
+    @token = account_params[:stripeToken]
+    @amount = 500
     # Create a Customer
     customer = Stripe::Customer.create(
-      :source => token,
-      :plan => params[:package_name],
+      :source => @token,
+      :plan => account_params[:package_name],
       :email => current_user.email
     )
 
-    @account = Account.new(account_params)
+    charge = Stripe::Charge.create(
+      :customer    => customer.id,
+      :amount      => @amount,
+      :description => 'HypeDrive Stripe customer',
+      :currency    => 'usd'
+    )
+
+    @account = Account.new
     authorize @account
 
     @account.stripe_customer_id = customer.id
-    @account.user = current_user
+    @account.user_id = current_user.id
+    @account.package_id = 0;
+    @account.users << current_user
     @account.active = TRUE
 
     if @account.save
