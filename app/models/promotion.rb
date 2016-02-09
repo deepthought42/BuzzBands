@@ -1,7 +1,7 @@
 class Promotion < ActiveRecord::Base
   belongs_to :venue
 
-  validates :name, presence: true, length: {minimum: 5}
+  validates :name, presence: true, length: {minimum: 3}
   validates :ad_location, presence: true
   validates :start_time, presence: true
   validates :end_time, presence: true

@@ -2,6 +2,7 @@ class PromotionsController < ApplicationController
   before_action :authenticate_user!, except: [:show]
   before_action :set_promotion, only: [:show, :edit, :update, :destroy]
   after_action :verify_authorized, except: [:index, :show]
+  
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   # GET /promotions

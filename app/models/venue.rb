@@ -1,6 +1,7 @@
 class Venue < ActiveRecord::Base
   has_many :promotions
   has_many :orders
+  has_many :scans
   belongs_to :account
 
   validates :name, presence: true

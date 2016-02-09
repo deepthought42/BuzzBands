@@ -1,14 +1,14 @@
 class OrdersController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!
   before_action :set_order, only: [:show, :edit, :update, :destroy]
   after_action :verify_authorized, except: :index
+  after_action :verify_policy_scoped, only: :index
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   # GET /orders
   # GET /orders.json
   def index
-    @orders = Order.all
-    authorize @orders
+    @orders = policy_scope(Order)
     render json: @orders
   end
 
