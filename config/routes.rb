@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   resources :accounts
   resources :packages
   resources :orders
+  resources :scans
+
   get '/venues/:id/promotions', to: 'venues#getPromotions', as: 'venuePromotions'
   get '/venues/:id/accounts', to: 'venues#getAccounts', as: 'venueAccounts'
   get '/bandPackages', to: 'band_packages#index', as: 'BandPackages'
