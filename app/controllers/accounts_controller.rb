@@ -9,8 +9,9 @@ class AccountsController < ApplicationController
   # GET /accounts
   # GET /accounts.json
   def index
-    @users = policy_scope(Account)
-    render json: @accounts
+    @accounts = policy_scope(Account)
+
+    render json: @accounts, include: [:user]
   end
 
   # GET /accounts/1
