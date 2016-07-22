@@ -76,5 +76,4 @@ class PackagesController < ApplicationController
     def user_not_authorized
       render json: {status: :unauthorized, message: "You are not authorized to perform this action."}
     end
-  end
 end
