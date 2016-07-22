@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   has_many :orders
   belongs_to :account
 
-  enum role: [:user, :account_user, :admin, :buzzbands_employee]
+  enum role: [:user, :account_user, :admin, :hypedrive_employee]
 
   after_initialize :set_default_role, :if => :new_record?
 

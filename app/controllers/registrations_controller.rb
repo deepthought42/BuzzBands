@@ -4,7 +4,6 @@ class RegistrationsController < DeviseTokenAuth::RegistrationsController
     super
     if params[:venue_id]
       @venue = Venue.find(params[:venue_id])
-      logger.info "VENUES FOR USER :: #{@venue.name}"
       @user.venues.push(@venue)
     end
   end

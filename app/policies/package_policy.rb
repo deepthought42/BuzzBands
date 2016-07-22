@@ -6,14 +6,14 @@ cclass PackagePolicy < ApplicationPolicy
   end
 
   def update?
-    user.admin? || @user.buzzbands_employee?
+    user.admin? || @user.hypedrive_employee?
   end
 
   def create?
-    user.user? || @user.buzzbands_employee?
+    user.user? || @user.hypedrive_employee?
   end
 
   def destroy?
-    @user.admin? || @user.buzzbands_employee?
+    @user.admin? || @user.hypedrive_employee?
   end
 end

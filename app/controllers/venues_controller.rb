@@ -1,4 +1,5 @@
 class VenuesController < ApplicationController
+
   before_action :authenticate_user!, except: [:index, :show, :getPromotions]
   before_action :set_venue, only: [:show, :edit, :update, :destroy, :getPromotions]
   after_action :verify_authorized, except: [:index, :show, :getPromotions]
@@ -21,7 +22,7 @@ class VenuesController < ApplicationController
       #get all promotions for all venues that the current account is registered with
       @userVenues = AccountVenue.where(user_id: current_user.id).collect(&:venue_id)
       @venues = Venue.find(@userVenues)
-    elsif current_user && @user.role == "buzzbands_employee"
+    elsif current_user && @user.role == "hypedrive_employee"
       @venues = Venue.all
     end
     render json: @venues
