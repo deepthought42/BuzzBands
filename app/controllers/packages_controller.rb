@@ -1,7 +1,7 @@
 class PackagesController < ApplicationController
   include Pundit
   before_action :authenticate_user! except: [:index]
-  before_action :set_package, only: [:show, :edit, :update, :destroy]
+  before_action :set_package, only: [:show, :update, :destroy]
   after_action :verify_authorized, except: [:index]
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
