@@ -1,5 +1,5 @@
 class PackagesController < ApplicationController
-  include Pundit
+  #include Pundit
   before_action :authenticate_user! except: [:index]
   before_action :set_package, only: [:show, :update, :destroy]
   after_action :verify_authorized, except: [:index]
