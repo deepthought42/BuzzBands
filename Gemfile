@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+ruby "2.2.3"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
 # Use sqlite3 as the database for Active Record
@@ -50,3 +51,5 @@ gem 'pundit'
 gem 'stripe'
 gem 'angular_rails_csrf'
 gem 'geocoder'
+
+gem 'rails_12factor', group: :production
