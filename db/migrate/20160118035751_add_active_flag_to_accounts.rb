@@ -1,5 +1,5 @@
 class AddActiveFlagToAccounts < ActiveRecord::Migration
   def change
-    add_column :accounts, :active, :boolean
+    add_column :accounts, :active, :boolean, :default => true
   end
 end

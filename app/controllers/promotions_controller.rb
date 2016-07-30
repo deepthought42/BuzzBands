@@ -1,8 +1,8 @@
 class PromotionsController < ApplicationController
-  before_action :authenticate_user!, except: [:show]
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_promotion, only: [:show, :edit, :update, :destroy]
   after_action :verify_authorized, except: [:index, :show]
-  
+
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   # GET /promotions
@@ -12,12 +12,7 @@ class PromotionsController < ApplicationController
       @user = User.find(current_user.id)
     end
 
-    if current_user && @user.role == "user" #general user
-      #should be changed to all promotions for venues near the user
-      @promotions = Promotion.where('active=:isActive and (start_time >= :time_now or end_time >= :time_now)',
-                                    :isActive => true,
-                                    :time_now  => Time.now)
-    elsif current_user && @user.role == "account_user" #account_user - not currently used
+    if current_user && @user.role == "account_user" #account_user - not currently used
       @userVenues = UserVenue.where(user_id: current_user.id).collect(&:venue_id)
       @promotions = Promotion.where(venue_id: @userVenues)
     elsif current_user && @user.role == "admin" #admin
@@ -27,7 +22,9 @@ class PromotionsController < ApplicationController
     elsif current_user && @user.role == "buzzbands_employee"
       @promotions = Promotion.all
     else
-      @promotions = Promotion.all
+      @promotions = Promotion.where('active=:isActive and (start_time >= :time_now or end_time >= :time_now)',
+                                    :isActive => true,
+                                    :time_now  => Time.now)
     end
     render json: @promotions
   end

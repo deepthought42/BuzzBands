@@ -4,6 +4,10 @@ class Venue < ActiveRecord::Base
   has_many :scans
   belongs_to :account
 
+  geocoded_by :address
+  reverse_geocoded_by :latitude, :longitude
+  after_validation :geocode, :reverse_geocode
+
   validates :name, presence: true
   validates :address, presence: true
   validates :city, presence: true

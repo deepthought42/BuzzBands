@@ -1,5 +1,4 @@
 class VenuesController < ApplicationController
-
   before_action :authenticate_user!, except: [:index, :show, :getPromotions]
   before_action :set_venue, only: [:show, :edit, :update, :destroy, :getPromotions]
   after_action :verify_authorized, except: [:index, :show, :getPromotions]
@@ -12,10 +11,7 @@ class VenuesController < ApplicationController
       @user = User.find(current_user.id)
     end
 
-    if !current_user || @user.role == 'user' #general user
-      #should be changed to all promotions for venues near the user
-      @venues = Venue.all
-    elsif current_user && @user.role == 'account_user' #account_user - not currently used
+    if current_user && @user.role == 'account_user' #account_user - not currently used
       @userVenues = AccountVenue.where(user_id: current_user.id).collect(&:venue_id)
       @venues = Venue.find(@userVenues)
     elsif current_user && @user.role == "admin" #admin
@@ -23,6 +19,9 @@ class VenuesController < ApplicationController
       @userVenues = AccountVenue.where(user_id: current_user.id).collect(&:venue_id)
       @venues = Venue.find(@userVenues)
     elsif current_user && @user.role == "hypedrive_employee"
+      @venues = Venue.all
+    else
+      #should be changed to all promotions for venues near the user
       @venues = Venue.all
     end
     render json: @venues
@@ -45,6 +44,8 @@ class VenuesController < ApplicationController
     @venue = Venue.new(venue_params)
     @venue.active = FALSE
     authorize @venue
+    #geocode location
+    #save geocoding for venue
 
     if @venue.save
       render json: {status: :created, venue: @venue}
@@ -98,7 +99,7 @@ class VenuesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def venue_params
-      params.require(:venue).permit(:name, :address, :city, :state, :zip_code, :url, :active, :user, :category)
+      params.require(:venue).permit(:name, :address, :city, :state, :zip, :url, :active, :user, :category)
     end
 
     def user_not_authorized
