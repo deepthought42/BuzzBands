@@ -12,7 +12,7 @@ class AccountPolicy < ApplicationPolicy
   end
 
   def create?
-    @user.user? || @user.hypedrive_employee?
+    @user.hypedrive_employee?
   end
 
   def destroy?

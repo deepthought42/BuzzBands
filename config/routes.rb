@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :orders
   resources :scans
 
+  put '/accounts/:id/updatePayment', to: 'accounts#updatePayment', as: 'accountPayment'
   get '/venues/:id/promotions', to: 'venues#getPromotions', as: 'venuePromotions'
   get '/venues/:id/accounts', to: 'venues#getAccounts', as: 'venueAccounts'
   get '/bandPackages', to: 'band_packages#index', as: 'BandPackages'

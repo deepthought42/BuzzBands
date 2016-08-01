@@ -21,15 +21,27 @@ class AccountsController < ApplicationController
     render json: @account
   end
 
-  # GET /accounts/new
-  def new
-    @account = Account.new
-  end
-
   # POST /accounts
   # POST /accounts.json
   def create
     # Get the credit card details submitted by the form
+    @account = Account.new
+    authorize @account
+    @account.user_id = account_params[:user_id]
+    @account.package_id = account_params[:package_id];
+    @user = User.find(account_params[:user_id])
+    @account.users << @user
+    @account.active = FALSE
+
+    if @account.save
+      render json: {status: :created, account: @account}
+    else
+      render json: { error: @account.errors, status: :unprocessable_entity }
+    end
+  end
+
+  #POST /account/:id/updatePayment
+  def updatePayment
     @token = account_params[:stripeToken]
     @amount = 500
     # Create a Customer
@@ -46,13 +58,7 @@ class AccountsController < ApplicationController
       :currency    => 'usd'
     )
 
-    @account = Account.new
-    authorize @account
-
     @account.stripe_customer_id = customer.id
-    @account.user_id = current_user.id
-    @account.package_id = 0;
-    @account.users << current_user
     @account.active = TRUE
 
     if @account.save
@@ -109,7 +115,7 @@ class AccountsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def account_params
-      params.require(:account).permit(:package_name, :stripeToken)
+      params.require(:account).permit(:package_name, :stripeToken, :user_id, :package_id)
     end
 
     def user_not_authorized

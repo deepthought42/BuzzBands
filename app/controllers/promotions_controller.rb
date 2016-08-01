@@ -1,5 +1,5 @@
 class PromotionsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:show]
   before_action :set_promotion, only: [:show, :edit, :update, :destroy]
   after_action :verify_authorized, except: [:index, :show]
 
@@ -19,7 +19,7 @@ class PromotionsController < ApplicationController
       #get all promotions for all venues that the user is registered with
       @userVenues = UserVenue.where(user_id: current_user.id).collect(&:venue_id)
       @promotions = Promotion.where(venue_id: @userVenues)
-    elsif current_user && @user.role == "buzzbands_employee"
+    elsif current_user && @user.role == "hypedrive_employee"
       @promotions = Promotion.all
     else
       @promotions = Promotion.where('active=:isActive and (start_time >= :time_now or end_time >= :time_now)',
@@ -35,11 +35,6 @@ class PromotionsController < ApplicationController
     render json: @promotion
   end
 
-  # GET /promotions/new
-  def new
-    @promotion = Promotion.new
-  end
-
   # POST /promotions
   # POST /promotions.json
   def create
@@ -48,7 +43,7 @@ class PromotionsController < ApplicationController
     if @promotion.save
       render json: {promotion: @promotion, status: :created }
     else
-      render json: {errors: @promotion.errors, status: :unprocessable_entity }
+      render json: {errors: @promotion.errors, status: :unprocessable_entity }, status: :unprocessable_entity
     end
   end
 

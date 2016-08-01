@@ -1,8 +1,8 @@
 class PackagesController < ApplicationController
   include Pundit
-  before_action :authenticate_user!, except: [:index]
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_package, only: [:show, :update, :destroy]
-  after_action :verify_authorized, except: [:index]
+  after_action :verify_authorized, except: [:index, :show]
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   # GET /packages
@@ -15,13 +15,7 @@ class PackagesController < ApplicationController
   # GET /packages/1
   # GET /packages/1.json
   def show
-    authorize @package
     render json: @package
-  end
-
-  # GET /packages/new
-  def new
-    @package = Package.new
   end
 
   # POST /packages
@@ -29,7 +23,7 @@ class PackagesController < ApplicationController
   def create
     @package = Package.new(package_params)
     authorize @package
-    @package.active = FALSE
+
     if @package.save
       render json: {status: :created, package: @package}
     else
