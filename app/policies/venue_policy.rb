@@ -7,7 +7,7 @@ class VenuePolicy < ApplicationPolicy
   end
 
   def create?
-    @user.hypedrive_employee?
+    @user.hypedrive_employee? || @user.admin?
   end
 
   def update?

@@ -2,7 +2,8 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   has_many :orders
-  belongs_to :account
+  has_many :accountsUsers
+  has_many :accounts, through: :accountsUsers
 
   enum role: [:user, :account_user, :admin, :hypedrive_employee]
 
@@ -14,9 +15,9 @@ class User < ActiveRecord::Base
 
   # Include default devise modules.
   devise :database_authenticatable, :registerable,
-          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
+          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :confirmable
   before_save -> do
      self.uid = SecureRandom.uuid
-     skip_confirmation!
+#     skip_confirmation!
    end
 end

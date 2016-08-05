@@ -1,6 +1,7 @@
 class Account < ActiveRecord::Base
   has_many :venues
-  has_many :users
+  has_many :accountUsers
+  has_many :users, through: :accountUsers
   belongs_to :user
 
   validates :user_id, presence: true

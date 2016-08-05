@@ -6,6 +6,7 @@ class RegistrationsController < DeviseTokenAuth::RegistrationsController
       @venue = Venue.find(params[:venue_id])
       @user.venues.push(@venue)
     end
+  #  UserMailer.welcome(@user).deliver unless @user.invalid?
   end
 
   protected

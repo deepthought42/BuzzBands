@@ -4,20 +4,27 @@ class VenuesController < ApplicationController
   after_action :verify_authorized, except: [ :index, :show, :getPromotions]
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
+  # Returns the list of venues based on the user's role.
+  # Roles:
+  # =>  User: See all venues
+  # =>  account user: see all venues associated with the account
+  # =>  admin:    see all venues that are associated with the account
+  # =>  hypedrive employee: see all venues
+  #
   # GET /venues
   # GET /venues.json
   def index
     if current_user
       @user = User.find(current_user.id)
+      @accounts = AccountsUsers.where(user_id: current_user.id).collect(&:account_id)
+      logger.info @accounts
     end
 
     if current_user && @user.role == 'account_user' #account_user - not currently used
-      @userVenues = AccountVenue.where(user_id: current_user.id).collect(&:venue_id)
-      @venues = Venue.find(@userVenues)
+      @venues = Venue.where(account_id: @accounts)
     elsif current_user && @user.role == "admin" #admin
       #get all promotions for all venues that the current account is registered with
-      @userVenues = AccountVenue.where(user_id: current_user.id).collect(&:venue_id)
-      @venues = Venue.find(@userVenues)
+      @venues = Venue.where(account_id: @accounts)
     elsif current_user && @user.role == "hypedrive_employee"
       @venues = Venue.all
     else
@@ -43,10 +50,9 @@ class VenuesController < ApplicationController
   def create
     @venue = Venue.new(venue_params)
     authorize @venue
-
+    @account = Account.where(user_id: current_user.id).first
     @venue.active = FALSE
-    #geocode location
-    #save geocoding for venue
+    @venue.account = @account
 
     if @venue.save
       render json: {status: :created, venue: @venue}

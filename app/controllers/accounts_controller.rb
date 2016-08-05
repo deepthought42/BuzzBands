@@ -44,6 +44,7 @@ class AccountsController < ApplicationController
   def updatePayment
     @token = account_params[:stripeToken]
     @amount = 500
+    
     # Create a Customer
     customer = Stripe::Customer.create(
       :source => @token,
