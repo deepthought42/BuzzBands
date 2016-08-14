@@ -18,7 +18,11 @@ class VenuePolicy < ApplicationPolicy
     @user.admin? || @user.hypedrive_employee?
   end
 
-  def getAccounts?
+  def claimVenue?
+    @user.admin?
+  end
+
+  def approveClaim?
     @user.hypedrive_employee?
   end
 end

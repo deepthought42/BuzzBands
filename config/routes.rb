@@ -11,7 +11,8 @@ Rails.application.routes.draw do
 
   put '/accounts/:id/updatePayment', to: 'accounts#updatePayment', as: 'accountPayment'
   get '/venues/:id/promotions', to: 'venues#getPromotions', as: 'venuePromotions'
-  get '/venues/:id/accounts', to: 'venues#getAccounts', as: 'venueAccounts'
+  get '/venues/:id/claim', to: 'venues#claimVenue'
+  get '/venues/:id/approveClaim', to: 'venues#approveClaim'
   get '/bandPackages', to: 'band_packages#index', as: 'BandPackages'
   get '/orders/analytics/previousMonthBandOrders', to: 'orders#previousMonthBandOrders', as: 'Orders'
   put '/admin/users/:id/activate', to: 'users#activate'

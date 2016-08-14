@@ -1,12 +1,12 @@
 class VenuesController < ApplicationController
-  before_action :authenticate_user!, except: [:show, :getPromotions]
+  before_action :authenticate_user!, except: [:index, :show, :getPromotions]
   before_action :set_venue, only: [:show, :edit, :update, :destroy, :getPromotions]
   after_action :verify_authorized, except: [ :index, :show, :getPromotions]
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   # Returns the list of venues based on the user's role.
   # Roles:
-  # =>  User: See all venues
+  # =>  User: See all venues within 2 miles of user
   # =>  account user: see all venues associated with the account
   # =>  admin:    see all venues that are associated with the account
   # =>  hypedrive employee: see all venues
@@ -29,8 +29,19 @@ class VenuesController < ApplicationController
       @venues = Venue.all
     else
       #should be changed to all promotions for venues near the user
-      @venues = Venue.all
+      if(params[:lat] && params[:lng])
+        @venues = Venue.near([params[:lat], params[:lng]], 1)
+      else
+        @venues = Venue.all
+      end
     end
+
+    @new_venues = []
+    @venues.each { |venue|
+      venue.promo_count = venue.promotions.count
+    }
+
+    #get count of active promotions available for a user
     render json: @venues
   end
 
@@ -45,14 +56,26 @@ class VenuesController < ApplicationController
     @venue = Venue.new
   end
 
+  # Creates a venue with a couple caveats
+  # => if the user submitting the request is a hypedrive employee then we set
+  #       the venue active and assign the desired account
+  # => if the user submitting the requiest is an admin then we set the venue
+  #       inactive and assing the account based on the account owned by the
+  #       current user
   # POST /venues
   # POST /venues.json
   def create
     @venue = Venue.new(venue_params)
     authorize @venue
-    @account = Account.where(user_id: current_user.id).first
-    @venue.active = FALSE
-    @venue.account = @account
+
+    if(current_user.role == 3)
+      @venue.active = TRUE
+      @venue.account_id = account_id
+    else
+      @venue.active = FALSE
+      @account = Account.where(user_id: current_user.id).first
+      @venue.account = @account
+    end
 
     if @venue.save
       render json: {status: :created, venue: @venue}
@@ -65,13 +88,6 @@ class VenuesController < ApplicationController
     @promotions = @venue.promotions.where('start_time >= :time_now or end_time >= :time_now',
                                   :time_now  => Time.now)
     render json: @promotions
-  end
-
-  #GET /venues/1/accounts.json
-  def getAccounts
-    authorize @venue
-    @accounts = @venue.accounts
-    render json: @accounts
   end
 
   # PATCH/PUT /venues/1
@@ -98,6 +114,34 @@ class VenuesController < ApplicationController
     end
   end
 
+
+  def approveClaim
+    authorize @venue
+
+    if @venue.update({active: true})
+      render json: { status: :ok }
+    else
+      render json: { status: :unprocessable_entity}
+    end
+  end
+
+
+  def claimVenue
+    authorize @venue
+    if !@venue.account_id
+      @account = Accouts.where(user_id: current_user.id).first()
+      @venue.account = @account
+
+      if @venue.update({active: true})
+        render json: { status: :ok }
+      else
+        render json: { status: :unprocessable_entity}
+      end
+    else
+      render json: { status: :unprocessable_entity}
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_venue
@@ -106,7 +150,7 @@ class VenuesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def venue_params
-      params.require(:venue).permit(:name, :address, :city, :state, :zip_code, :url, :active, :user, :category)
+      params.require(:venue).permit(:name, :address, :city, :state, :zip_code, :url, :user, :category, :account_id, :lat, :lng)
     end
 
     def user_not_authorized
