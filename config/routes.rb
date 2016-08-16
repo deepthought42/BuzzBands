@@ -16,7 +16,6 @@ Rails.application.routes.draw do
   get '/bandPackages', to: 'band_packages#index', as: 'BandPackages'
   get '/orders/analytics/previousMonthBandOrders', to: 'orders#previousMonthBandOrders', as: 'Orders'
   put '/admin/users/:id/activate', to: 'users#activate'
-  get '/', to: "welcome#index"
 
   resources :roles
   scope "/admin" do
