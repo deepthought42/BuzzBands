@@ -16,7 +16,6 @@ class VenuesController < ApplicationController
   def index
     if current_user
       @user = User.find(current_user.id)
-      @accounts = AccountsUsers.where(user_id: current_user.id).collect(&:account_id)
       logger.info @accounts
     end
 
