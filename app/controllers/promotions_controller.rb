@@ -1,5 +1,5 @@
 class PromotionsController < ApplicationController
-  before_action :authenticate_user!, except: [:show]
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_promotion, only: [:show, :edit, :update, :destroy]
   after_action :verify_authorized, except: [:index, :show]
 
@@ -13,12 +13,12 @@ class PromotionsController < ApplicationController
     end
 
     if current_user && @user.role == "account_user" #account_user - not currently used
-      @userVenues = UserVenue.where(user_id: current_user.id).collect(&:venue_id)
-      @promotions = Promotion.where(venue_id: @userVenues)
+      @venues = Venue.where(account_id: current_user.account_id)
+      @promotions = Promotion.where(venue_id: @venues)
     elsif current_user && @user.role == "admin" #admin
       #get all promotions for all venues that the user is registered with
-      @userVenues = UserVenue.where(user_id: current_user.id).collect(&:venue_id)
-      @promotions = Promotion.where(venue_id: @userVenues)
+      @venues = Venue.where(account_id: current_user.account_id)
+      @promotions = Promotion.where(venue_id: @venues)
     elsif current_user && @user.role == "hypedrive_employee"
       @promotions = Promotion.all
     else
@@ -81,7 +81,7 @@ class PromotionsController < ApplicationController
     def promotion_params
       params.require(:promotion).permit(:id, :name, :ad_location,
                                         :start_time, :end_time, :active,
-                                        :venue_id, :description)
+                                        :venue_id, :description, :notes)
     end
 
     def user_not_authorized

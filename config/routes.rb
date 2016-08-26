@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
   put '/accounts/:id/updatePayment', to: 'accounts#updatePayment', as: 'accountPayment'
   get '/venues/:id/promotions', to: 'venues#getPromotions', as: 'venuePromotions'
+  get '/venues/nearMe', to: 'venues#getNearestVenues', as: 'venuesNearMe'
   get '/venues/:id/claim', to: 'venues#claimVenue'
   get '/venues/:id/approveClaim', to: 'venues#approveClaim'
   get '/bandPackages', to: 'band_packages#index', as: 'BandPackages'

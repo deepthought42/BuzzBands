@@ -11,21 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160805001508) do
+ActiveRecord::Schema.define(version: 20160825051430) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "account_users", force: :cascade do |t|
-    t.integer  "account_id", null: false
-    t.integer  "user_id",    null: false
-    t.integer  "role"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "account_users", ["account_id"], name: "index_account_users_on_account_id", using: :btree
-  add_index "account_users", ["user_id"], name: "index_account_users_on_user_id", using: :btree
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "user_id",                           null: false
@@ -35,6 +24,17 @@ ActiveRecord::Schema.define(version: 20160805001508) do
     t.boolean  "active",             default: true
     t.string   "stripe_customer_id"
   end
+
+  create_table "accounts_users", force: :cascade do |t|
+    t.integer  "account_id", null: false
+    t.integer  "user_id",    null: false
+    t.integer  "role"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "accounts_users", ["account_id"], name: "index_account_users_on_account_id", using: :btree
+  add_index "accounts_users", ["user_id"], name: "index_account_users_on_user_id", using: :btree
 
   create_table "orders", force: :cascade do |t|
     t.string   "venue_id",   null: false
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 20160805001508) do
     t.integer  "venue_id"
     t.string   "description"
     t.boolean  "active"
+    t.text     "notes"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -139,5 +140,7 @@ ActiveRecord::Schema.define(version: 20160805001508) do
     t.float    "longitude"
     t.float    "latitude"
   end
+
+  add_index "venues", ["address"], name: "index_venues_on_address", unique: true, using: :btree
 
 end

@@ -1,10 +1,22 @@
 class VenuePolicy < ApplicationPolicy
-  attr_reader :user, :venue
+  class Scope < Scope
 
-  def initialize(user, venue)
-    @user = user
-    @venue = venue
+    def resolve
+      if user.hypedrive_employee?
+        scope.all
+      elsif user.admin? || user.account_user?
+
+        #get all venues for this current users accounts
+        scope.where(account_id: user.account_id)
+
+      else
+        scope.all
+        #scope.near([user.latitude, user.longitude], 1)
+      end
+    end
   end
+
+
 
   def create?
     @user.hypedrive_employee? || @user.admin?

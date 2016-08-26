@@ -5,6 +5,14 @@ class UserPolicy < ApplicationPolicy
         scope.all
       end
     end
+
+    #def permitted_attributes
+    #  if user.hypedrive_employee?
+    #    [:title, :body, :tag_list]
+    #  else
+    #    [:tag_list]
+    #  end
+    #end
   end
 
   def activate?
