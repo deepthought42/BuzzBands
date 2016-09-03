@@ -1,5 +1,5 @@
 class VenuesController < ApplicationController
-  before_action :authenticate_user!, except: [:getNearestVenues, :show, :getPromotions]
+  before_action :authenticate_user!, except: [ :getNearestVenues, :show, :getPromotions]
   before_action :set_venue, only: [:show, :edit, :update, :destroy, :getPromotions]
   after_action :verify_authorized, except: [:index, :show, :getPromotions, :getNearestVenues]
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
@@ -14,32 +14,32 @@ class VenuesController < ApplicationController
   # GET /venues
   # GET /venues.json
   def index
-    @venues = policy_scope(Venue)
+    #@venues = policy_scope(Venue)
 
-#    if current_user
-#      @user = User.find(current_user.id)
-#      #logger.info @user.accounts
-#    end
+    if current_user
+      @user = User.find(current_user.id)
+      #logger.info @user.accounts
+    end
 
-#    if current_user && @user.role == 'account_user' #account_user - not currently used
-#      @venues = Venue.where(account_id: current_user.account_id)
-#    elsif current_user && @user.role == "admin" #admin
+    if current_user && @user.role == 'account_user' #account_user - not currently used
+      @venues = Venue.where(account_id: current_user.account_id)
+    elsif current_user && @user.role == "admin" #admin
       #get all promotions for all venues that the current account is registered with
-#      @venues = Venue.where(account_id: current_user.account_id)
-#    elsif current_user && @user.role == "hypedrive_employee"
-#      @venues = Venue.all
-#    else
-#      if(params[:lat] && params[:lng])
-#        @venues = Venue.near([params[:lat], params[:lng]], 1)
-#      else
-#        @venues = Venue.all
-#      end
-#    end
+      @venues = Venue.where(account_id: current_user.account_id)
+    elsif current_user && @user.role == "hypedrive_employee"
+      @venues = Venue.all
+    else
+      if(params[:lat] && params[:lng])
+        @venues = Venue.near([params[:lat], params[:lng]], 1)
+      else
+        @venues = Venue.all
+      end
+    end
 
-    #@venues.each { |venue|
-    #  venue.promo_count = venue.promotions.count
+    @venues.each { |venue|
+      venue.promo_count = venue.promotions.count
       #venue.distance = Venue.distance_to("#{current_user.latitude}, #{current_user.longitude}")
-    #}
+    }
 
     #get count of active promotions available for a user
     render json: @venues
