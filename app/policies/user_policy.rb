@@ -1,7 +1,7 @@
 class UserPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      if user.role == "hypedrive_employee"
+      if user.hypedrive_employee?
         scope.all
       end
     end

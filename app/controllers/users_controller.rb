@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, except: [:show]
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_user, only: [:show, :edit, :update, :destroy, :activate]
 
   after_action :verify_authorized, except: [:index, :show]
@@ -71,6 +71,6 @@ class UsersController < ApplicationController
     end
 
     def user_not_authorized
-      render json: {status: :unauthorized, message: "You are not authorized to perform this action."}
+      render json: {status: :unauthorized, message: "You are not authorized to perform this User action."}
     end
 end
