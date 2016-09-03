@@ -2,9 +2,9 @@ class VenuePolicy < ApplicationPolicy
   class Scope < Scope
 
     def resolve
-      if user.hypedrive_employee?
+      if user.role == "hypedrive_employee"
         scope.all
-      elsif user.admin? || user.account_user?
+      elsif user.role == "admin" || user.role == "account_user"
 
         #get all venues for this current users accounts
         scope.where(account_id: user.account_id)
