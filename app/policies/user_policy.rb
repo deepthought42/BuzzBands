@@ -1,25 +1,12 @@
 class UserPolicy < ApplicationPolicy
-  class Scope
-    attr_reader :user, :scope
+  attr_reader :user
 
-    def initialize(user, scope)
-       @user = user
-       @scope = scope
-    end
+  def initialize( user )
+    @user = user
+  end
 
-    def resolve
-      if user.role == "hypedrive_employee"
-        scope.all
-      end
-    end
-
-    #def permitted_attributes
-    #  if user.hypedrive_employee?
-    #    [:title, :body, :tag_list]
-    #  else
-    #    [:tag_list]
-    #  end
-    #end
+  def index?
+    current_user #truthy if logged in, nil otherwise
   end
 
   def activate?
