@@ -1,5 +1,5 @@
 class UserPolicy < ApplicationPolicy
-  class Scope < Scope
+  class Scope
     attr_reader :user, :scope
 
     def initialize(user, scope)
@@ -8,7 +8,7 @@ class UserPolicy < ApplicationPolicy
     end
 
     def resolve
-      if user.hypedrive_employee?
+      if user.role == "hypedrive_employee"
         scope.all
       end
     end
