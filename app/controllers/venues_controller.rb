@@ -6,7 +6,7 @@ class VenuesController < ApplicationController
 
   # Returns the list of venues based on the user's role.
   # Roles:
-  # =>  User: See all venues within 2 miles of user
+  # =>  User: See all venues within 1 miles of user
   # =>  account user: see all venues associated with the account
   # =>  admin:    see all venues that are associated with the account
   # =>  hypedrive employee: see all venues
