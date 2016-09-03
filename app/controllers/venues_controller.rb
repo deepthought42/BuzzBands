@@ -36,10 +36,10 @@ class VenuesController < ApplicationController
 #      end
 #    end
 
-    @venues.each { |venue|
-      venue.promo_count = venue.promotions.count
+    #@venues.each { |venue|
+    #  venue.promo_count = venue.promotions.count
       #venue.distance = Venue.distance_to("#{current_user.latitude}, #{current_user.longitude}")
-    }
+    #}
 
     #get count of active promotions available for a user
     render json: @venues
