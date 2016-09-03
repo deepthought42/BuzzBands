@@ -6,7 +6,7 @@ class VenuesController < ApplicationController
 
   # Returns the list of venues based on the user's role.
   # Roles:
-  # =>  User: See all venues within 2 miles of user
+  # =>  User: See all venues within 1 miles of user
   # =>  account user: see all venues associated with the account
   # =>  admin:    see all venues that are associated with the account
   # =>  hypedrive employee: see all venues
@@ -30,7 +30,7 @@ class VenuesController < ApplicationController
       @venues = Venue.all
     else
       if(params[:lat] && params[:lng])
-        @venues = Venue.near([params[:lat], params[:lng]], 1)
+        @venues = Venue.near([params[:lat], params[:lng]], 100, :order => "distance")
       else
         @venues = Venue.all
       end
@@ -47,7 +47,7 @@ class VenuesController < ApplicationController
 
   def getNearestVenues
     if(params[:lat] && params[:lng])
-      @venues = Venue.near([params[:lat], params[:lng]], 100)
+      @venues = Venue.near([params[:lat], params[:lng]], 100, :order => "distance")
     else
       @venues = Venue.all
     end
