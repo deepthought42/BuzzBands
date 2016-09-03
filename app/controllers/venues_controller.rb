@@ -14,8 +14,6 @@ class VenuesController < ApplicationController
   # GET /venues
   # GET /venues.json
   def index
-    current_user.latitude = params[:lat]
-    current_user.longitude = params[:lng]
     @venues = policy_scope(Venue)
 
 #    if current_user
@@ -53,6 +51,11 @@ class VenuesController < ApplicationController
     else
       @venues = Venue.all
     end
+
+    @venues.each { |venue|
+      venue.promo_count = venue.promotions.count
+      #venue.distance = Venue.distance_to("#{current_user.latitude}, #{current_user.longitude}")
+    }
 
     render json: @venues
   end
