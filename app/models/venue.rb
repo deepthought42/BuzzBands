@@ -16,9 +16,6 @@ class Venue < ActiveRecord::Base
   validates :state, presence: true
   validates :zip_code, presence: true
 
-  geocoded_by :full_street_address
-  after_validation :geocode
-
   reverse_geocoded_by :latitude, :longitude
   after_validation :reverse_geocode
 
