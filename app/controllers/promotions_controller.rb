@@ -81,7 +81,7 @@ class PromotionsController < ApplicationController
     def promotion_params
       params.require(:promotion).permit(:id, :name, :ad_location,
                                         :start_time, :end_time, :active,
-                                        :venue_id, :description, :notes)
+                                        :venue_id, :description, :notes, :rating)
     end
 
     def user_not_authorized
