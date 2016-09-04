@@ -4,6 +4,7 @@ DeviseTokenAuth.setup do |config|
   # this to false to prevent the Authorization header from changing after
   # each request.
   #config.change_headers_on_each_request = false
+
   config.default_confirm_success_url = "confirmed"
   config.token_lifespan = 2.days
   remove_tokens_after_password_reset = true

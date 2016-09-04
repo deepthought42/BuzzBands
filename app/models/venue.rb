@@ -7,7 +7,7 @@ class Venue < ActiveRecord::Base
   belongs_to :account
 
   geocoded_by :full_street_address
-  after_validation :geocode, if: ->(obj){ obj.full_street_address.present? and obj.full_street_address? }
+  after_validation :geocode, if: ->(obj){ obj.address.present? and obj.address? }
 
   #reverse_geocoded_by :latitude, :longitude
   #after_validation :reverse_geocode
