@@ -167,7 +167,6 @@ PLATFORMS
 
 DEPENDENCIES
   angular_rails_csrf
-  devise
   devise_token_auth
   geocoder
   jbuilder (~> 2.0)
