@@ -8,9 +8,9 @@ class Venue < ActiveRecord::Base
 
   geocoded_by :full_street_address
   after_validation :geocode, if: ->(obj){ obj.full_street_address.present? and obj.full_street_address? }
-  
-  reverse_geocoded_by :latitude, :longitude
-  after_validation :reverse_geocode
+
+  #reverse_geocoded_by :latitude, :longitude
+  #after_validation :reverse_geocode
 
   validates :name, presence: true
   validates :address, presence: true
