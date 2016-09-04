@@ -7,17 +7,16 @@ class Venue < ActiveRecord::Base
   belongs_to :account
 
   geocoded_by :full_street_address
-  #reverse_geocoded_by :latitude, :longitude
   after_validation :geocode, if: ->(obj){ obj.full_street_address.present? and obj.full_street_address? }
+
+  #reverse_geocoded_by :latitude, :longitude
+  #after_validation :reverse_geocode
 
   validates :name, presence: true
   validates :address, presence: true
   validates :city, presence: true
   validates :state, presence: true
   validates :zip_code, presence: true
-
-  reverse_geocoded_by :latitude, :longitude
-  after_validation :reverse_geocode
 
   def full_street_address
     [address, city, state, zip_code].compact.join(', ')
