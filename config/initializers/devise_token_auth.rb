@@ -5,7 +5,7 @@ DeviseTokenAuth.setup do |config|
   # each request.
   config.change_headers_on_each_request = false
   #config.default_confirm_success_url = "confirmed"
-  config.token_lifespan = 1.days
+  config.token_lifespan = 24.hours
   #remove_tokens_after_password_reset = true
   # By default, users will need to re-authenticate after 2 weeks. This setting
   # determines how long tokens will remain valid after they are issued.
