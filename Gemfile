@@ -45,7 +45,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'devise_token_auth'
 gem 'rack-cors', :require => 'rack/cors'
-#gem 'devise'
 gem 'omniauth'
 gem 'pundit'
 gem 'stripe'
