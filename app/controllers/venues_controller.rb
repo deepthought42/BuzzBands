@@ -63,6 +63,9 @@ class VenuesController < ApplicationController
   # GET /venues/1
   # GET /venues/1.json
   def show
+    @venue.promo_count = @venue.promotions.count
+    @venue.distance = Venue.distance_to("#{current_user.latitude}, #{current_user.longitude}")
+
     render json: @venue
   end
 
