@@ -1,5 +1,5 @@
 class VenuesController < ApplicationController
-  before_action :authenticate_user!, except: [ :getNearestVenues, :show, :getPromotions]
+  before_action :authenticate_user!, except: [ :getNearestVenues, :getPromotions]
   before_action :set_venue, only: [:show, :edit, :update, :destroy, :getPromotions]
   after_action :verify_authorized, except: [:index, :show, :getPromotions, :getNearestVenues]
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
@@ -64,7 +64,10 @@ class VenuesController < ApplicationController
   # GET /venues/1.json
   def show
     @venue.promo_count = @venue.promotions.count
-    @venue.distance = Venue.distance_to("#{current_user.latitude}, #{current_user.longitude}")
+
+    if current_user
+      @venue.distance = Venue.distance_to("#{current_user.latitude}, #{current_user.longitude}")
+    end
 
     render json: @venue
   end
