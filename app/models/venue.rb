@@ -17,6 +17,7 @@ class Venue < ActiveRecord::Base
   validates :city, presence: true
   validates :state, presence: true
   validates :zip_code, presence: true
+  validates :num_bars, numericality: { only_integer: true }, allow_blank: true
 
   def full_street_address
     [address, city, state, zip_code].compact.join(', ')

@@ -172,7 +172,7 @@ class VenuesController < ApplicationController
     def venue_params
       params.require(:venue).permit(:name, :address, :city, :state, :zip_code,
                                     :url, :user, :category, :account_id,
-                                    :lat, :lng, :capacity, :cover)
+                                    :lat, :lng, :capacity, :cover, :num_bars)
     end
 
     def user_not_authorized
