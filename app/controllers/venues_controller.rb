@@ -103,7 +103,8 @@ class VenuesController < ApplicationController
   end
 
   def getPromotions
-    @promotions = Promotion.where('active=:isActive and (start_time >= :time_now or end_time >= :time_now)',
+    @promotions = Promotion.where('venue_id=:venue_id and active=:isActive and (start_time >= :time_now or end_time >= :time_now) ',
+                                  :venue_id => d@venue.id
                                   :isActive => true,
                                   :time_now  => Time.now)
     render json: @promotions
