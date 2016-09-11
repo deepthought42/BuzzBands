@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160908044030) do
+ActiveRecord::Schema.define(version: 20160910201723) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -130,10 +130,10 @@ ActiveRecord::Schema.define(version: 20160908044030) do
     t.string   "name"
     t.string   "address"
     t.string   "city"
-    t.string   "state",      limit: 2
-    t.string   "zip_code",   limit: 5
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.string   "state",            limit: 2
+    t.string   "zip_code",         limit: 5
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.boolean  "active"
     t.string   "url"
     t.string   "category"
@@ -144,6 +144,10 @@ ActiveRecord::Schema.define(version: 20160908044030) do
     t.integer  "capacity"
     t.text     "logo_url"
     t.integer  "num_bars"
+    t.integer  "mensBathroom"
+    t.integer  "womensBathroom"
+    t.integer  "num_beers_on_tap"
+    t.string   "phone",            limit: 10
   end
 
   add_index "venues", ["address"], name: "index_venues_on_address", unique: true, using: :btree
