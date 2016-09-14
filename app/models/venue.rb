@@ -9,15 +9,16 @@ class Venue < ActiveRecord::Base
   geocoded_by :full_street_address
   after_validation :geocode, if: ->(obj){ obj.address.present? and obj.address? }
 
-  #reverse_geocoded_by :latitude, :longitude
-  #after_validation :reverse_geocode
-
   validates :name, presence: true
   validates :address, presence: true
   validates :city, presence: true
   validates :state, presence: true
   validates :zip_code, presence: true
   validates :num_bars, numericality: { only_integer: true }, allow_blank: true
+  validates :num_beers_on_tap, numericality: { only_integer: true }, allow_blank: true
+  validates :womensBathroom, numericality: { only_integer: true }, allow_blank: true
+  validates :mensBathroom, numericality: { only_integer: true }, allow_blank: true
+  validates :phone, numericality: { only_integer: true }, allow_blank: true
 
   def full_street_address
     [address, city, state, zip_code].compact.join(', ')
