@@ -47,7 +47,7 @@ class VenuesController < ApplicationController
 
   def getNearestVenues
     if(params[:lat] && params[:lng])
-      @venues = Venue.near([params[:lat], params[:lng]], 2, :order => "distance")
+      @venues = Venue.near([params[:lat], params[:lng]], 10, :order => "distance")
     else
       @venues = Venue.all
     end
